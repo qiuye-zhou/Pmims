@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import router from '../../router/index'
+function Refresh() {
+  location.reload()
+}
+function backhome() {
+  router.push('/')
+}
 </script>
 
 <template>
@@ -9,8 +16,8 @@
       <span class="rig">抱歉啦, 页面走丢了</span>
     </h1>
     <div class="but">
-      <el-button type="danger" round>回到首页</el-button>
-      <el-button type="warning" round>刷新</el-button>
+      <el-button type="danger" round @click="backhome">回到首页</el-button>
+      <el-button type="warning" round @click="Refresh">刷新</el-button>
     </div>
   </div>
 </template>
