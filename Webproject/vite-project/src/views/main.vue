@@ -1,13 +1,27 @@
 <script setup lang="ts">
-import useMainStore from '../store/index'
-
-const store = useMainStore()
+import CommonAside from '../components/Aside/CommonAside.vue'
+import CommonHeader from '../components/Header/CommonHeader.vue'
 </script>
 
 <template>
-  <h1>main</h1>
-  <h1>{{ store.count }}</h1>
+  <div class="common-layout">
+    <el-container  style="height: 100%">
+      <el-aside width="200px">
+        <CommonAside></CommonAside>
+      </el-aside>
+      <el-container>
+        <el-header>
+          <CommonHeader></CommonHeader>
+        </el-header>
+        <el-main>Main<router-view></router-view></el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
+*{
+  margin: 0px;
+  padding: 0px;
+}
 </style>
