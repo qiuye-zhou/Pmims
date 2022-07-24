@@ -1,16 +1,77 @@
 <script lang="ts" setup>
-import { ArrowRight } from "@element-plus/icons-vue";
+import { ArrowRight, Fold, ArrowDown } from "@element-plus/icons-vue";
+import { reactive, toRefs } from "vue";
+
+const state = reactive({
+  squareUrl:
+    "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
+  sizeList: ["small", "", "large"] as const,
+});
+
+const { squareUrl, sizeList } = toRefs(state);
+
+function handleMenu() {
+  console.log("隐藏meun");
+}
+
+function logout() {
+  console.log('退出登入');
+}
 </script>
 
 <template>
   <header>
-    <div>
+    <div class="l-content">
+      <el-icon @click="handleMenu" class="button-icon"><Fold /></el-icon>
       <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion management</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/home' }"
+          >homepage</el-breadcrumb-item
+        >
+        <el-breadcrumb-item :to="{ path: '/cs' }"
+          >promotion management</el-breadcrumb-item
+        >
         <el-breadcrumb-item>promotion list</el-breadcrumb-item>
         <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
+    <div class="r-content">
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          <el-avatar shape="square" :size="sizeList[1]" :src="squareUrl" />
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>个人中心</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
   </header>
 </template>
+
+<style lang="less" scoped>
+header {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.l-content {
+  display: flex;
+  align-items: center;
+  .button-icon {
+    margin-right: 20px;
+    cursor: pointer;
+  }
+}
+.r-content {
+  margin-right: 30px;
+}
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+}
+</style>

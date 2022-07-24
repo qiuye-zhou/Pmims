@@ -4,7 +4,7 @@ function Refresh() {
   location.reload()
 }
 function backhome() {
-  router.push('/')
+  router.push('/home')
 }
 </script>
 

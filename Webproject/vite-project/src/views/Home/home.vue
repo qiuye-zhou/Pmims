@@ -9,5 +9,8 @@
 </template>
 
 <style lang="less" scoped>
-
+div {
+    border: 1px solid red;
+    height: 500px;
+}
 </style>
