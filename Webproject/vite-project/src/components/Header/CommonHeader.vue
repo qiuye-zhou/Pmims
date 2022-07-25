@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-import { ArrowRight, Fold, ArrowDown } from "@element-plus/icons-vue";
+import { ArrowRight,Fold,Expand,ArrowDown } from "@element-plus/icons-vue";
 import { reactive, toRefs } from "vue";
+
+//store
+import useMeunStore from '../../store/index'
+const store = useMeunStore()
 
 const state = reactive({
   squareUrl:
@@ -11,7 +15,7 @@ const state = reactive({
 const { squareUrl, sizeList } = toRefs(state);
 
 function handleMenu() {
-  console.log("隐藏meun");
+  store.isCollapse = !store.isCollapse
 }
 
 function logout() {
@@ -22,7 +26,8 @@ function logout() {
 <template>
   <header>
     <div class="l-content">
-      <el-icon @click="handleMenu" class="button-icon"><Fold /></el-icon>
+      <el-icon :size="20" v-show="!store.isCollapse" @click="handleMenu" class="button-icon"><Fold /></el-icon>
+      <el-icon :size="20" v-show="store.isCollapse" @click="handleMenu" class="button-icon"><Expand /></el-icon>
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/home' }"
           >homepage</el-breadcrumb-item

@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 
-export default defineStore('main',{
+export default defineStore('Meun',{
     state: () => {
         return {
-            count: 10
+            isCollapse: false
         }
     },
 })

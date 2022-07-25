@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import {
   Document,
   Menu as IconMenu,
@@ -13,6 +13,11 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
+
+//store
+import useMeunStore from '../../store/index'
+const store = useMeunStore()
+
 </script>
 
 <template>
@@ -23,10 +28,11 @@ const handleClose = (key: string, keyPath: string[]) => {
       class="el-menu-vertical-demo"
       default-active="/home"
       text-color="#fff"
+      :collapse="store.isCollapse"
       @open="handleOpen"
       @close="handleClose"
     >
-      <h5 class="title-aside">用户界面</h5>
+      <h5 class="title-aside">{{ !store.isCollapse ? '用户界面' : '界面' }}</h5>
       <el-menu-item index="/home">
         <el-icon><icon-menu /></el-icon>
         <span>Home</span>
