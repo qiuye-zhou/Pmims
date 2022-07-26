@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     Aside: typeof import('./src/components/Aside/aside.vue')['default']
     CommonAside: typeof import('./src/components/Aside/CommonAside.vue')['default']
     CommonHeader: typeof import('./src/components/Header/CommonHeader.vue')['default']
+    CommonTag: typeof import('./src/components/Tag/CommonTag.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -32,8 +33,11 @@ declare module '@vue/runtime-core' {
     ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElTag: typeof import('element-plus/es')['ElTag']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Tag: typeof import('./src/components/Tag/tag.vue')['default']
+    Tage: typeof import('./src/components/Tag/tage.vue')['default']
   }
 }
