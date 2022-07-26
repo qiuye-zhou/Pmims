@@ -40,14 +40,10 @@ function logout() {
       <el-icon :size="20" v-show="!store.isCollapse" @click="handleMenu" class="button-icon"><Fold /></el-icon>
       <el-icon :size="20" v-show="store.isCollapse" @click="handleMenu" class="button-icon"><Expand /></el-icon>
       <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item :to="{ path: '/home' }"
-          >homepage</el-breadcrumb-item
-        >
-        <el-breadcrumb-item :to="{ path: '/cs' }"
-          >promotion management</el-breadcrumb-item
-        >
-        <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/home' }">主页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/activ' }">活动中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/prize' }">所获奖项</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user' }">个人中心</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="r-content">
