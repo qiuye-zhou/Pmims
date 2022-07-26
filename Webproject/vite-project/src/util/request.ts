@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { baseURL } from '../config/request'
 // import { MessageBox, Message } from 'element-ui'
 // import store from '@/store'
 // import { getToken } from '@/utils/auth'
@@ -6,7 +7,7 @@ axios.defaults.withCredentials = true;//允许跨域携带cookie信息
 
 // create an axios instance
 const service = axios.create({
-    baseURL: 'http://localhost:3300', // url = base url + request url
+    baseURL: baseURL, // url = base url + request url
     // withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000 // request timeout
 })
@@ -68,7 +69,7 @@ service.interceptors.response.use(
             //     })
             // }
             // return Promise.reject(new Error(res.message || 'Error'))
-            
+
             return res
         } else {
             return res
