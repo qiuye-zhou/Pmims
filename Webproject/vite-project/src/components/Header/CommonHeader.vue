@@ -18,6 +18,17 @@ function handleMenu() {
   store.isCollapse = !store.isCollapse
 }
 
+//临时测试请求
+// import {cs} from '../../api/user'
+// async function handleMenu() {
+//   store.isCollapse = !store.isCollapse
+//   const c = await cs({
+// number:	'admin159',
+// password:	'admin357'
+//   })
+//   console.log(c);
+// }
+
 function logout() {
   console.log('退出登入');
 }
