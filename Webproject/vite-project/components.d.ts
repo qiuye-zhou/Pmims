@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     CommonAside: typeof import('./src/components/Aside/CommonAside.vue')['default']
     CommonHeader: typeof import('./src/components/Header/CommonHeader.vue')['default']
     CommonTag: typeof import('./src/components/Tag/CommonTag.vue')['default']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

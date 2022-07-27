@@ -3,7 +3,7 @@ import { reactive, ref } from "vue";
 import useUserStore from "../../store/user";
 const store = useUserStore();
 import { Login } from "../../api/user";
-import router from '../../router/index'
+import router from "../../router/index";
 
 const formLabelAlign = reactive({
   number: "",
@@ -15,20 +15,27 @@ function loginsub(formEl: FormInstance | undefined) {
   let re: boolean = false;
   formEl.validate((valid) => {
     if (valid) {
-      console.log("Login!");
+      // console.log("Login!");
       Login({
         number: formLabelAlign.number,
         password: formLabelAlign.password,
-      }).then((res) => {
-        if (res.code == 200) {
-          store.Data = res.data;
-          store.Token = res.token;
-          router.push({ path: '/home' })
-        } else {
-        }
-      });
+      })
+        .then((res) => {
+          if (res.code == 200) {
+            open1()
+            store.Data = res.data;
+            store.Token = res.token;
+            router.push({ path: "/home" });
+          } else {
+            loginerr(res.msg)
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          loginerr('请求未响应')
+        });
     } else {
-      console.log("error Login!");
+      // console.log("error Login!");
       return false;
     }
   });
@@ -52,6 +59,10 @@ const rules = reactive({
     { min: 5, max: 12, message: "Length should be 5 to 12", trigger: "blur" },
   ],
 });
+import { ElMessage } from 'element-plus'
+const loginerr = (msg) => {
+  ElMessage.error(msg)
+}
 </script>
 
 <template>
