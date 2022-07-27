@@ -1,35 +1,95 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
+import useUserStore from "../../store/user";
+const store = useUserStore();
+import { Login } from "../../api/user";
 
 const formLabelAlign = reactive({
-  account: "",
-  password: ""
+  number: "",
+  password: "",
 });
 
-function loginsub() {
-  // console.log(formLabelAlign.name);
-  //登入功能待写
+function loginsub(formEl: FormInstance | undefined) {
+  if (!formEl) return;
+  let re: boolean = false;
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log("Login!");
+      Login({
+        number: formLabelAlign.number,
+        password: formLabelAlign.password,
+      }).then((res) => {
+        if (res.code == 200) {
+          store.Data = res.data;
+          store.Token = res.token;
+          console.log(store.Data);
+        } else {
+        }
+      });
+    } else {
+      console.log("error Login!");
+      return false;
+    }
+  });
 }
+function remove(formEl: FormInstance | undefined) {
+  if (!formEl) return;
+  formEl.resetFields();
+}
+
+//from校验
+import type { FormInstance } from "element-plus";
+const ruleFormRef = ref<FormInstance>();
+
+const rules = reactive({
+  number: [
+    { required: true, message: "请输入账号", trigger: "blur" },
+    { min: 5, max: 12, message: "Length should be 5 to 12", trigger: "blur" },
+  ],
+  password: [
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { min: 5, max: 12, message: "Length should be 5 to 12", trigger: "blur" },
+  ],
+});
 </script>
 
 <template>
   <div>
     <el-form
+      ref="ruleFormRef"
       label-position="top"
       label-width="100px"
       :model="formLabelAlign"
+      :rules="rules"
       style="max-width: 460px"
       class="login-container"
     >
       <h3 class="login_title">系统登录</h3>
-      <el-form-item label="账户" label-width="50px">
-        <el-input v-model="formLabelAlign.name" />
+      <el-form-item label="账户" label-width="50px" prop="number">
+        <el-input v-model="formLabelAlign.number" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="密码" label-width="50px">
-        <el-input v-model="formLabelAlign.region" type="password" />
+      <el-form-item label="密码" label-width="50px" prop="password">
+        <el-input
+          v-model="formLabelAlign.password"
+          type="password"
+          autocomplete="off"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" round class="login_submit" @click="loginsub">登入</el-button>
+        <el-button
+          type="primary"
+          round
+          class="login_submit"
+          @click="loginsub(ruleFormRef)"
+          >登入</el-button
+        >
+        <el-button
+          type="danger"
+          round
+          class="login_submit"
+          @click="remove(ruleFormRef)"
+          >清空</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
