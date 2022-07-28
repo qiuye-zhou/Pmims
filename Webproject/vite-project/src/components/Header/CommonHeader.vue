@@ -4,7 +4,7 @@ import { reactive, toRefs } from "vue";
 import router from '../../router/index'
 
 //store
-import useMeunStore from '../../store/index'
+import useMeunStore from '../../store/meun'
 const store = useMeunStore()
 
 const state = reactive({
@@ -19,9 +19,9 @@ function handleMenu() {
   store.isCollapse = !store.isCollapse
 }
 
-// function gohome() {
-//   router.push({ path: "/user" });
-// }
+function gohome() {
+  router.push({ path: "/user" });
+}
 function logout() {
   router.push({ path: "/login" });
 }
@@ -33,10 +33,10 @@ function logout() {
       <el-icon :size="20" v-show="!store.isCollapse" @click="handleMenu" class="button-icon"><Fold /></el-icon>
       <el-icon :size="20" v-show="store.isCollapse" @click="handleMenu" class="button-icon"><Expand /></el-icon>
       <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item :to="{ path: '/home' }">主页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/activ' }">活动中心</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/prize' }">所获奖项</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/user' }">个人中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: 'home' }">主页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: 'activ' }">活动中心</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: 'prize' }">所获奖项</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: 'user' }">个人中心</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="r-content">
@@ -46,7 +46,7 @@ function logout() {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <!-- <el-dropdown-item @click="gohome">个人中心</el-dropdown-item> -->
+            <el-dropdown-item @click="gohome">个人中心</el-dropdown-item>
             <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
