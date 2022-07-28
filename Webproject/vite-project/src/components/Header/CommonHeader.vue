@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ArrowRight,Fold,Expand,ArrowDown } from "@element-plus/icons-vue";
 import { reactive, toRefs } from "vue";
+import router from '../../router/index'
 
 //store
 import useMeunStore from '../../store/index'
@@ -18,19 +19,11 @@ function handleMenu() {
   store.isCollapse = !store.isCollapse
 }
 
-//临时测试请求
-// import {cs} from '../../api/user'
-// async function handleMenu() {
-//   store.isCollapse = !store.isCollapse
-//   const c = await cs({
-// number:	'admin159',
-// password:	'admin357'
-//   })
-//   console.log(c);
+// function gohome() {
+//   router.push({ path: "/user" });
 // }
-
 function logout() {
-  console.log('退出登入');
+  router.push({ path: "/login" });
 }
 </script>
 
@@ -53,7 +46,7 @@ function logout() {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>个人中心</el-dropdown-item>
+            <!-- <el-dropdown-item @click="gohome">个人中心</el-dropdown-item> -->
             <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>

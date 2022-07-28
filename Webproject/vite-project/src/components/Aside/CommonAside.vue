@@ -24,7 +24,7 @@ const store = useMeunStore()
 <template>
   <div>
     <el-menu
-      active-text-color="#ffd04b"
+      active-text-color="#66b5fa"
       background-color="#545c64"
       class="el-menu-vertical-demo"
       default-active="/home"
