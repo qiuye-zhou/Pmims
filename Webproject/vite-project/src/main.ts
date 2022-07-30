@@ -22,6 +22,9 @@ router.beforeEach((to, from, next) => {
     // } else {
     //     next()
     // }
+    
+    //localStorage
+    // console.log(localStorage);
 
     //解决url和其他方法跳转页面(除meun点击跳转)造成meun不会同时变化的问题,页面刷新跳转回home页面
     if(to.name) {

@@ -4,6 +4,7 @@ import { baseURL } from '../config/request'
 // import store from '@/store'
 // import { getToken } from '@/utils/auth'
 axios.defaults.withCredentials = true;//允许跨域携带cookie信息
+import storage from '../localstorage/localstorage'
 
 // create an axios instance
 const service = axios.create({
@@ -23,6 +24,11 @@ service.interceptors.request.use(
         //     // please modify it according to the actual situation
         //     config.headers['X-Token'] = getToken()
         // }
+
+        // 每次发送请求之前都检测是否存有token,放在请求头发送给服务器
+        if (config && config.headers && storage.get('token')) {
+            config.headers['token'] = storage.get('token');
+          }
         return config
     },
     error => {

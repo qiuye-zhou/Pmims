@@ -6,6 +6,7 @@ import router from '../../router/index'
 //store
 import useMeunStore from '../../store/meun'
 const store = useMeunStore()
+import storage from '../../localstorage/localstorage'
 
 const state = reactive({
   squareUrl:
@@ -26,6 +27,7 @@ function logout() {
   router.push({ path: "/login" });
   store.Data = null;
   store.Token = null;
+  storage.remove('token')
 }
 </script>
 
