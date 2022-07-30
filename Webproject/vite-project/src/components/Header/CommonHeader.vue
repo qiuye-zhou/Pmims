@@ -24,6 +24,8 @@ function gohome() {
 }
 function logout() {
   router.push({ path: "/login" });
+  store.Data = null;
+  store.Token = null;
 }
 </script>
 

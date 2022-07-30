@@ -59,7 +59,7 @@ export default {
 <template>
     <div>
         home
-        <div ref="chart1"></div>
+        <div ref="chart1" class="char"></div>
     </div>
 </template>
 

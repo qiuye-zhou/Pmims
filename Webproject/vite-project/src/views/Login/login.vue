@@ -2,7 +2,7 @@
 import { reactive, ref } from "vue";
 import useUserStore from "../../store/user";
 const store = useUserStore();
-import { Login } from "../../api/user";
+import { Login } from "../../api/login";
 import router from "../../router/index";
 
 const formLabelAlign = reactive({
@@ -22,7 +22,6 @@ function loginsub(formEl: FormInstance | undefined) {
       })
         .then((res) => {
           if (res.code == 200) {
-            open1()
             store.Data = res.data;
             store.Token = res.token;
             router.push({ path: "/home" });
