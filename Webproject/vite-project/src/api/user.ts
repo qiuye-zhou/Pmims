@@ -21,7 +21,7 @@ export function getawards(data: any) {
 //获取个人的积分排名
 export function getintegral_rank(data: any) {
     return request({
-        url: '/users/getactivity',
+        url: '/users/getintegral_rank',
         method: 'POST',
         data
     })
@@ -68,7 +68,7 @@ export function activ_evaluate(data: any) {
 //活动总数量/该用户参加活动的数量——pie
 export function getechartspie(data: any) {
     return request({
-        url: '/users/activ_evaluate',
+        url: '/users/getechartspie',
         method: 'POST',
         data
     })

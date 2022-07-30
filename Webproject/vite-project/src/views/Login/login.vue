@@ -5,7 +5,6 @@ const store = useUserStore();
 import { Login } from "../../api/login";
 import router from "../../router/index";
 import storage from '../../localstorage/localstorage'
-import { getUser } from '../../api/user'
 
 const formLabelAlign = reactive({
   number: "",
@@ -28,8 +27,6 @@ function loginsub(formEl: FormInstance | undefined) {
             store.Token = res.token;
             storage.set('token',res.token)
             router.push({ path: "/home" });
-            })
-            
           } else {
             loginerr(res.msg)
           }
