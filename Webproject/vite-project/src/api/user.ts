@@ -26,3 +26,50 @@ export function getintegral_rank(data: any) {
         data
     })
 }
+
+//获取所有的活动信息，以及个人用户参加了的活动的信息
+export function getactivity(data: any) {
+    return request({
+        url: '/users/getactivity',
+        method: 'POST',
+        data
+    })
+}
+
+//获取activ_id 的全部详细信息
+export function getactivitywhole(data: any) {
+    return request({
+        url: '/users/getactivitywhole',
+        method: 'POST',
+        data
+    })
+}
+
+//操作
+//用户参加某个活动
+export function join_active(data: any) {
+    return request({
+        url: '/users/join_active',
+        method: 'POST',
+        data
+    })
+}
+
+//用户活动评价(活动结束后评价)
+export function activ_evaluate(data: any) {
+    return request({
+        url: '/users/activ_evaluate',
+        method: 'POST',
+        data
+    })
+}
+
+//echarts数据
+//活动总数量/该用户参加活动的数量——pie
+export function getechartspie(data: any) {
+    return request({
+        url: '/users/activ_evaluate',
+        method: 'POST',
+        data
+    })
+}
