@@ -9,6 +9,7 @@ import storage from '../../localstorage/localstorage'
 const formLabelAlign = reactive({
   number: "",
   password: "",
+  disabled: false,
 });
 
 function loginsub(formEl: FormInstance | undefined) {
@@ -17,11 +18,13 @@ function loginsub(formEl: FormInstance | undefined) {
   formEl.validate((valid) => {
     if (valid) {
       // console.log("Login!");
+      formLabelAlign.disabled = !formLabelAlign.disabled
       Login({
         number: formLabelAlign.number,
         password: formLabelAlign.password,
       })
         .then((res) => {
+          formLabelAlign.disabled = !formLabelAlign.disabled
           if (res.code == 200) {
             store.Data = res.data;
             store.Token = res.token;
@@ -32,11 +35,13 @@ function loginsub(formEl: FormInstance | undefined) {
           }
         })
         .catch((err) => {
+          formLabelAlign.disabled = !formLabelAlign.disabled
           console.log(err);
           loginerr('请求未响应')
         });
     } else {
       // console.log("error Login!");
+      formLabelAlign.disabled = !formLabelAlign.disabled
       return false;
     }
   });
@@ -74,6 +79,9 @@ const loginerr = (msg) => {
       label-width="100px"
       :model="formLabelAlign"
       :rules="rules"
+      size="large"
+      status-icon
+      :disabled="formLabelAlign.disabled"
       style="max-width: 460px"
       class="login-container"
     >
