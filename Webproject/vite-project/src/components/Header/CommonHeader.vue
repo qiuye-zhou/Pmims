@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ArrowRight,Fold,Expand,ArrowDown } from "@element-plus/icons-vue";
+import { ArrowRight,Fold,Expand,ArrowDown  } from "@element-plus/icons-vue";
 import { reactive, toRefs } from "vue";
 import router from '../../router/index'
 

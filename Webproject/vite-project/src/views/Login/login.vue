@@ -28,6 +28,7 @@ function loginsub(formEl: FormInstance | undefined) {
           if (res.code == 200) {
             store.Data = res.data;
             store.Token = res.token;
+            storage.set('data',res.data)
             storage.set('token',res.token)
             router.push({ path: "/home" });
           } else {
