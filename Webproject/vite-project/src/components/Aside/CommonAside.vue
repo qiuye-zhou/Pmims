@@ -10,6 +10,8 @@ import {
 import router from "../../router/index";
 import storage from "../../localstorage/localstorage";
 import { onBeforeMount, reactive, ref } from "vue";
+import useMeunStore from "../../store/meun";
+const store = useMeunStore();
 const handleOpen = (key: string, keyPath: string[]) => {
   // console.log(key, keyPath);
   router.push({ path: keyPath[0] });
@@ -22,9 +24,6 @@ const clickmeun = (path: string) => {
   router.push({ path: path });
 };
 
-//store
-import useMeunStore from "../../store/meun";
-const store = useMeunStore();
 let grade = reactive({
   grade: "0",
 });

@@ -28,6 +28,7 @@ function logout() {
   store.Data = null;
   store.Token = null;
   storage.removeAll()
+  router.removeRoute('main')
 }
 </script>
 

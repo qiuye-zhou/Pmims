@@ -4,7 +4,8 @@ import useUserStore from "../../store/user";
 const store = useUserStore();
 import { Login } from "../../api/login";
 import router from "../../router/index";
-import storage from '../../localstorage/localstorage'
+import storage from "../../localstorage/localstorage";
+import { user,admin } from '../../config/routercon'
 
 const formLabelAlign = reactive({
   number: "",
@@ -18,31 +19,36 @@ function loginsub(formEl: FormInstance | undefined) {
   formEl.validate((valid) => {
     if (valid) {
       // console.log("Login!");
-      formLabelAlign.disabled = !formLabelAlign.disabled
+      formLabelAlign.disabled = !formLabelAlign.disabled;
       Login({
         number: formLabelAlign.number,
         password: formLabelAlign.password,
       })
         .then((res) => {
-          formLabelAlign.disabled = !formLabelAlign.disabled
+          formLabelAlign.disabled = !formLabelAlign.disabled;
           if (res.code == 200) {
             store.Data = res.data;
             store.Token = res.token;
-            storage.set('data',res.data)
-            storage.set('token',res.token)
+            storage.set("data", res.data);
+            storage.set("token", res.token);
+            if (res.data.grade == 3) {
+              router.addRoute(user);
+            } else {
+              router.addRoute(admin);
+            }
             router.push({ path: "/home" });
           } else {
-            loginerr(res.msg)
+            loginerr(res.msg);
           }
         })
         .catch((err) => {
-          formLabelAlign.disabled = !formLabelAlign.disabled
+          formLabelAlign.disabled = !formLabelAlign.disabled;
           console.log(err);
-          loginerr('请求未响应')
+          loginerr("请求未响应");
         });
     } else {
       // console.log("error Login!");
-      formLabelAlign.disabled = !formLabelAlign.disabled
+      formLabelAlign.disabled = !formLabelAlign.disabled;
       return false;
     }
   });
@@ -66,10 +72,10 @@ const rules = reactive({
     { min: 5, max: 12, message: "Length should be 5 to 12", trigger: "blur" },
   ],
 });
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
 const loginerr = (msg) => {
-  ElMessage.error(msg)
-}
+  ElMessage.error(msg);
+};
 </script>
 
 <template>
