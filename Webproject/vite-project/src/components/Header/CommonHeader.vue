@@ -27,7 +27,7 @@ function logout() {
   router.push({ path: "/login" });
   store.Data = null;
   store.Token = null;
-  storage.remove('token')
+  storage.removeAll()
 }
 </script>
 

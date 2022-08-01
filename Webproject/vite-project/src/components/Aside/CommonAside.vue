@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import {
-  Document,Menu as IconMenu,Flag,HomeFilled,UserFilled,Management,
+  Document,
+  Menu as IconMenu,
+  Flag,
+  HomeFilled,
+  UserFilled,
+  Management,
 } from "@element-plus/icons-vue";
 import router from "../../router/index";
+import storage from "../../localstorage/localstorage";
+import { onBeforeMount, reactive, ref } from "vue";
 const handleOpen = (key: string, keyPath: string[]) => {
   // console.log(key, keyPath);
   router.push({ path: keyPath[0] });
@@ -12,13 +19,18 @@ const handleClose = (key: string, keyPath: string[]) => {
 };
 
 const clickmeun = (path: string) => {
-  router.push({ path: path })
-}
+  router.push({ path: path });
+};
 
 //store
-import useMeunStore from '../../store/meun'
-const store = useMeunStore()
-
+import useMeunStore from "../../store/meun";
+const store = useMeunStore();
+let grade = reactive({
+  grade: "0",
+});
+onBeforeMount(() => {
+  grade.grade = storage.get("data").grade;
+});
 </script>
 
 <template>
@@ -33,7 +45,15 @@ const store = useMeunStore()
       @open="handleOpen"
       @close="handleClose"
     >
-      <h5 class="title-aside">{{ !store.isCollapse ? '用户界面' : '界面' }}</h5>
+      <h5 class="title-aside">
+        {{
+          !store.isCollapse
+            ? grade.grade == 3
+              ? "用户界面"
+              : "管理员界面"
+            : "界面"
+        }}
+      </h5>
       <el-menu-item index="home" @click="clickmeun('home')">
         <el-icon><HomeFilled /></el-icon>
         <span>主页</span>
