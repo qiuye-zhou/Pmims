@@ -17,7 +17,7 @@ export const user = [
     {
         path: 'user',
         name: 'user',
-        meta: { title: '个人中心', icon: 'UserFilled' }
+        meta: { title: '个人信息', icon: 'UserFilled' }
     },
 ]
 
@@ -45,6 +45,6 @@ export const admin = [
     {
         path: 'user',
         name: 'user',
-        meta: { title: '个人中心', icon: 'UserFilled' }
+        meta: { title: '个人信息', icon: 'UserFilled' }
     },
 ]

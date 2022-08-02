@@ -56,7 +56,8 @@ const handleInputConfirm = () => {
 
 <style lang="less" scoped>
 .mx-1 {
-  margin: 12px;
+  margin: 6px;
+  height: 38px;
   color: rgb(0, 0, 0);
 }
 </style>
