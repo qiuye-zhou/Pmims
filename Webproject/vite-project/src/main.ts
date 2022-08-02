@@ -4,10 +4,14 @@ import router from './router/index'
 import { createPinia } from 'pinia'
 import 'element-plus/theme-chalk/src/message.scss'
 import storage from './localstorage/localstorage'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+
 const app = createApp(App)
 app.use(router)
 app.use(createPinia())
-
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+    }
 import useMeunStore from './store/meun'
 const store = useMeunStore()
 router.beforeEach((to, from, next) => {

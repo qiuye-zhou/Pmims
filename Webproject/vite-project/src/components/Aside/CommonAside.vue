@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import {
-  Document,
-  Menu as IconMenu,
-  Flag,
-  HomeFilled,
-  UserFilled,
-  Management,
-} from "@element-plus/icons-vue";
 import router from "../../router/index";
 import storage from "../../localstorage/localstorage";
 import { onBeforeMount, reactive, ref } from "vue";
 import useMeunStore from "../../store/meun";
 const store = useMeunStore();
+import useUserStore from "../../store/user";
+const storeuser = useUserStore();
 import { user,admin } from '../../config/routercon'
+import { initmeun } from '../../util/asidemeun'
+
 const handleOpen = (key: string, keyPath: string[]) => {
   // console.log(key, keyPath);
   router.push({ path: keyPath[0] });
@@ -28,20 +24,14 @@ const clickmeun = (path: string) => {
 let grade = reactive({
   grade: "0",
 });
-let meun = reactive({
-  title1: '1',
-  title2: '',
-  title3: '',
-})
+let meun = {}
 onBeforeMount(() => {
   grade.grade = storage.get("data").grade;
   if(grade.grade == 3) {
-    meun = user
+    initmeun(meun,user)
   } else {
-    meun = admin
+    initmeun(meun,admin)
   }
-  // meun.title1 = meun.children[0].meta.title
-  // console.log(meun.title1,meun.children[0].meta.title);
 });
 </script>
 
@@ -66,21 +56,9 @@ onBeforeMount(() => {
             : "界面"
         }}
       </h5>
-      <el-menu-item index="home" @click="clickmeun('home')">
-        <el-icon><HomeFilled /></el-icon>
-        <span>{{meun.title1}}</span>
-      </el-menu-item>
-      <el-menu-item index="activ" @click="clickmeun('activ')">
-        <el-icon><Flag /></el-icon>
-        <span>活动中心</span>
-      </el-menu-item>
-      <el-menu-item index="prize" @click="clickmeun('prize')">
-        <el-icon><Management /></el-icon>
-        <span>所获奖项</span>
-      </el-menu-item>
-      <el-menu-item index="user" @click="clickmeun('user')">
-        <el-icon><UserFilled /></el-icon>
-        <span>个人中心</span>
+      <el-menu-item v-for="item in meun" :index="item.path" @click="clickmeun(item.name)">
+        <el-icon><component :is="item.meta.icon"/></el-icon>
+        <span>{{item.meta.title}}</span>
       </el-menu-item>
     </el-menu>
   </div>
