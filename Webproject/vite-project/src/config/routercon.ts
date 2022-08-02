@@ -2,26 +2,22 @@ export const user = [
     {
         path: 'home',
         name: 'home',
-        url: './views/Home/home.vue',
         meta: { title: '主页', icon: 'HomeFilled' }
     },
     {
         path: 'activ',
         name: 'activ',
-        url: './views/Activ/activ.vue',
         meta: { title: '活动中心', icon: 'Flag' }
     },
     {
         path: 'prize',
         name: 'prize',
-        url: './views/Prize/prize.vue',
-        meta: { title: '所获奖项', icon: 'Management' }
+        meta: { title: '所获奖项', icon: 'Medal' }
     },
     {
         path: 'user',
         name: 'user',
-        url: './views/User/user.vue',
-        meta: { title: '个人中心', icon: 'HomeFilled' }
+        meta: { title: '个人中心', icon: 'UserFilled' }
     },
 ]
 
@@ -29,25 +25,26 @@ export const admin = [
     {
         path: 'home',
         name: 'home',
-        url: './views/Home/home.vue',
         meta: { title: '主页', icon: 'HomeFilled' }
     },
     {
-        path: 'activ',
-        name: 'activ',
-        url: './views/Activ/activ.vue',
-        meta: { title: '活动中心', icon: 'HomeFilled' }
+        path: 'adminactiv',
+        name: 'adminactiv',
+        meta: { title: '活动管理', icon: 'Flag' }
     },
     {
-        path: 'prize',
-        name: 'prize',
-        url: './views/Prize/prize.vue',
-        meta: { title: '所获奖项', icon: 'HomeFilled' }
+        path: 'userlist',
+        name: 'userlist',
+        meta: { title: '用户管理', icon: 'User' }
+    },
+    {
+        path: 'userdetails',
+        name: 'userdetails',
+        meta: { title: '用户详情', icon: 'PieChart' }
     },
     {
         path: 'user',
         name: 'user',
-        url: './views/User/user.vue',
-        meta: { title: '个人中心', icon: 'HomeFilled' }
+        meta: { title: '个人中心', icon: 'UserFilled' }
     },
 ]

@@ -26,9 +26,13 @@ router.beforeEach((to, from, next) => {
         } else {
             if(token) {
                 if(storage.get('data').grade == 3) {
-                    next()
+                    if(to.name == 'adminactiv' || to.name == 'userlist' || to.name =='userdetails') {
+                        next('404')
+                    } else {
+                        next()
+                    }
                 } else {
-                    if(to.name == 'activ') {
+                    if(to.name == 'activ' || to.name == 'prize') {
                         next('404')
                     } else {
                         next()
