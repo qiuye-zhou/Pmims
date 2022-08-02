@@ -12,6 +12,7 @@ import storage from "../../localstorage/localstorage";
 import { onBeforeMount, reactive, ref } from "vue";
 import useMeunStore from "../../store/meun";
 const store = useMeunStore();
+import { user,admin } from '../../config/routercon'
 const handleOpen = (key: string, keyPath: string[]) => {
   // console.log(key, keyPath);
   router.push({ path: keyPath[0] });
@@ -27,8 +28,20 @@ const clickmeun = (path: string) => {
 let grade = reactive({
   grade: "0",
 });
+let meun = reactive({
+  title1: '1',
+  title2: '',
+  title3: '',
+})
 onBeforeMount(() => {
   grade.grade = storage.get("data").grade;
+  if(grade.grade == 3) {
+    meun = user
+  } else {
+    meun = admin
+  }
+  // meun.title1 = meun.children[0].meta.title
+  // console.log(meun.title1,meun.children[0].meta.title);
 });
 </script>
 
@@ -55,7 +68,7 @@ onBeforeMount(() => {
       </h5>
       <el-menu-item index="home" @click="clickmeun('home')">
         <el-icon><HomeFilled /></el-icon>
-        <span>主页</span>
+        <span>{{meun.title1}}</span>
       </el-menu-item>
       <el-menu-item index="activ" @click="clickmeun('activ')">
         <el-icon><Flag /></el-icon>

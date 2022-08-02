@@ -2,27 +2,31 @@ export const user = {
     path: '/',
     name: 'main',
     redirect: 'home',
-    component: () => import('../views/main.vue'),
+    url: './views/main.vue',
     children: [
         {
             path: 'home',
             name: 'home',
-            component: () => import('../views/Home/home.vue')
+            url: './views/Home/home.vue',
+            meta: { title: '主页',icon: 'HomeFilled' }
         },
         {
             path: 'activ',
             name: 'activ',
-            component: () => import('../views/Activ/activ.vue')
+            url: './views/Activ/activ.vue',
+            meta: { title: '活动中心',icon: 'HomeFilled' }
         },
         {
             path: 'prize',
             name: 'prize',
-            component: () => import('../views/Prize/prize.vue')
+            url: './views/Prize/prize.vue',
+            meta: { title: '所获奖项',icon: 'HomeFilled' }
         },
         {
             path: 'user',
             name: 'user',
-            component: () => import('../views/User/user.vue')
+            url: './views/User/user.vue',
+            meta: { title: '个人中心',icon: 'HomeFilled' }
         },
     ]
 }
@@ -31,27 +35,31 @@ export const admin = {
     path: '/',
     name: 'main',
     redirect: 'home',
-    component: () => import('../views/main.vue'),
+    url: './views/main.vue',
     children: [
         {
             path: 'home',
             name: 'home',
-            component: () => import('../views/Home/home.vue')
+            url: './views/Home/home.vue',
+            meta: { title: '主页',icon: 'HomeFilled' }
         },
         {
             path: 'activ',
             name: 'activ',
-            component: () => import('../views/Activ/activ.vue')
+            url: './views/Activ/activ.vue',
+            meta: { title: '主页',icon: 'HomeFilled' }
         },
         {
             path: 'prize',
             name: 'prize',
-            component: () => import('../views/Prize/prize.vue')
+            url: './views/Prize/prize.vue',
+            meta: { title: '所获奖项',icon: 'HomeFilled' }
         },
         {
             path: 'user',
             name: 'user',
-            component: () => import('../views/User/user.vue')
+            url: './views/User/user.vue',
+            meta: { title: '个人中心',icon: 'HomeFilled' }
         },
     ]
 }

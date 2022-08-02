@@ -24,11 +24,10 @@ function gohome() {
   router.push({ path: "/user" });
 }
 function logout() {
-  router.push({ path: "/login" });
   store.Data = null;
   store.Token = null;
   storage.removeAll()
-  router.removeRoute('main')
+  router.push({ path: "/login" });
 }
 </script>
 

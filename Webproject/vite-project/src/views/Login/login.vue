@@ -31,11 +31,6 @@ function loginsub(formEl: FormInstance | undefined) {
             store.Token = res.token;
             storage.set("data", res.data);
             storage.set("token", res.token);
-            if (res.data.grade == 3) {
-              router.addRoute(user);
-            } else {
-              router.addRoute(admin);
-            }
             router.push({ path: "/home" });
           } else {
             loginerr(res.msg);
