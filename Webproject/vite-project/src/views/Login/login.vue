@@ -2,8 +2,6 @@
 import { reactive, ref } from "vue";
 import useUserStore from "../../store/user";
 const store = useUserStore();
-import useMeunStore from "../../store/meun";
-const storemeun = useMeunStore();
 import { Login } from "../../api/login";
 import router from "../../router/index";
 import storage from "../../localstorage/localstorage";
@@ -33,11 +31,6 @@ function loginsub(formEl: FormInstance | undefined) {
             store.Token = res.token;
             storage.set("data", res.data);
             storage.set("token", res.token);
-            if(res.data.grade == 3) {
-              storemeun.tabs = user
-            } else {
-              storemeun.tabs = admin
-            }
             router.push({ path: "/home" });
           } else {
             loginerr(res.msg);
