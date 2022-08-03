@@ -6,7 +6,7 @@ import useMeunStore from "../../store/meun";
 const store = useMeunStore();
 import useUserStore from "../../store/user";
 const storeuser = useUserStore();
-import { user,admin } from '../../config/routercon'
+import { user,admin,supadmin } from '../../config/routercon'
 import { initmeun } from '../../util/asidemeun'
 
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -30,7 +30,11 @@ onBeforeMount(() => {
   if(grade.grade == 3) {
     initmeun(meun,user)
   } else {
-    initmeun(meun,admin)
+    if(grade.grade == 2) {
+      initmeun(meun,admin)
+    } else {
+      initmeun(meun,supadmin)
+    }
   }
 });
 </script>

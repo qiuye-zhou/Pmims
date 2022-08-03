@@ -1,46 +1,46 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref,reactive,onBeforeMount } from 'vue'
 import router from '../../router/index'
+import storage from "../../localstorage/localstorage";
 import useMeunStore from "../../store/meun";
 const store = useMeunStore();
+import { initmeun } from '../../util/asidemeun'
+import { user,admin,supadmin } from '../../config/routercon'
 
-const editableTabs = ref([
-  {
-    title: '主页',
-    name: '/home',
-  },
-  {
-    title: '活动中心',
-    name: '/activ',
-  },
-  {
-    title: '所获奖项',
-    name: '/prize',
-  },
-  {
-    title: '个人信息',
-    name: '/user',
-  },
-])
-
+let grade = reactive({
+  grade: "0",
+});
+let meun = {}
+onBeforeMount(() => {
+  grade.grade = storage.get("data").grade;
+  if(grade.grade == 3) {
+    initmeun(meun,user)
+  } else {
+    if(grade.grade == 2) {
+      initmeun(meun,admin)
+    } else {
+      initmeun(meun,supadmin)
+    }
+  }
+});
 const tabclick = (pane: TabsPaneContext, ev: Event) => {
   if(router.options.history.location != pane.paneName) {
-    router.push({path: pane.paneName})
+    router.push({path: '/'+pane.paneName})
   }
 }
 </script>
 <template>
   <el-tabs
-    :model-value="'/'+store.meunshow"
+    :model-value="store.meunshow"
     type="card"
     class="demo-tabs"
     stretch
     @tab-click="tabclick"
   >
     <el-tab-pane
-      v-for="item in editableTabs"
+      v-for="item in meun"
       :key="item.name"
-      :label="item.title"
+      :label="item.meta.title"
       :name="item.name"
     >
     </el-tab-pane>

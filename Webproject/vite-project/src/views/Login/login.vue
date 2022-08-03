@@ -5,7 +5,7 @@ const store = useUserStore();
 import { Login } from "../../api/login";
 import router from "../../router/index";
 import storage from "../../localstorage/localstorage";
-import { user,admin } from '../../config/routercon'
+import { user,admin,supadmin } from '../../config/routercon'
 
 const formLabelAlign = reactive({
   number: "",

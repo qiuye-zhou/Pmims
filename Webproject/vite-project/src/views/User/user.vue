@@ -6,7 +6,7 @@ import { reactive, ref } from "vue";
 let userinfo = reactive({
   department: "",
   integral: "",
-  jiontime: "",
+  jointime: "",
   name: "",
   sex: "",
   user: false,
@@ -22,7 +22,7 @@ onMounted(() => {
           const data = res.data[0];
           userinfo.department = data.department;
           userinfo.integral = data.integral;
-          userinfo.jiontime = data.jiontime.slice(0, 10);
+          userinfo.jointime = data.jointime.slice(0, 10);
           userinfo.name = data.name;
           userinfo.sex = data.sex;
           userinfo.user = false;
@@ -79,7 +79,7 @@ onMounted(() => {
           <el-input v-model="userinfo.department" disabled />
         </el-form-item>
         <el-form-item label="入党时间">
-          <el-input v-model="userinfo.jiontime" disabled />
+          <el-input v-model="userinfo.jointime" disabled />
         </el-form-item>
         <el-form-item label="积分">
           <el-input v-model="userinfo.integral" disabled />
