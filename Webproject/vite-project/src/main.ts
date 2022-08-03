@@ -5,10 +5,15 @@ import { createPinia } from 'pinia'
 import 'element-plus/theme-chalk/src/message.scss'
 import storage from './localstorage/localstorage'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+import ElementPlus from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 const app = createApp(App)
 app.use(router)
 app.use(createPinia())
+app.use(ElementPlus, {
+    locale: zhCn,
+  })
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
     }

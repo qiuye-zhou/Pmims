@@ -60,11 +60,11 @@ const ruleFormRef = ref<FormInstance>();
 const rules = reactive({
   number: [
     { required: true, message: "请输入账号", trigger: "blur" },
-    { min: 5, max: 12, message: "Length should be 5 to 12", trigger: "blur" },
+    { min: 5, message: "账号长度应大于5", trigger: "blur" },
   ],
   password: [
     { required: true, message: "请输入密码", trigger: "blur" },
-    { min: 5, max: 12, message: "Length should be 5 to 12", trigger: "blur" },
+    { min: 5, message: "密码长度应大于5", trigger: "blur" },
   ],
 });
 import { ElMessage } from "element-plus";
