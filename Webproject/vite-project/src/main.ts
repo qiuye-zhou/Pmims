@@ -32,10 +32,18 @@ router.beforeEach((to, from, next) => {
                         next()
                     }
                 } else {
-                    if(to.name == 'activ' || to.name == 'prize') {
-                        next('404')
+                    if(storage.get('data').grade == 2) {
+                        if(to.name == 'activ' || to.name == 'prize' || to.name == 'userlist') {
+                            next('404')
+                        } else {
+                            next()
+                        }
                     } else {
-                        next()
+                        if(to.name == 'activ' || to.name == 'prize') {
+                            next('404')
+                        } else {
+                            next()
+                        }
                     }
                 }
             } else {

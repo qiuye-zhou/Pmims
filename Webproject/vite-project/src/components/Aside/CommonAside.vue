@@ -55,9 +55,9 @@ onBeforeMount(() => {
         {{
           !store.isCollapse
             ? grade.grade == 3
-              ? "用户界面"
-              : "管理员界面"
-            : "界面"
+              ? "用户"
+              : grade.grade == 2 ? '管理员' : '超级管理员'
+            : "面板"
         }}
       </h5>
       <el-menu-item v-for="item in meun" :index="item.path" @click="clickmeun(item.name)">
