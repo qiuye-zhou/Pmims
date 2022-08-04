@@ -11,9 +11,10 @@ let user = reactive({
 });
 onBeforeMount(() => {
   user.grade = storage.get("data").grade;
+  user.id = storage.get("data").id
   if (user.grade == 3) user.role = "用户";
   if (user.grade == 2) user.role = "管理员";
-  getUsername({ id: user.grade })
+  getUsername({ id: user.id })
     .then((res) => {
       if (res.code == 200) {
         user.name = res.data[0].name;
