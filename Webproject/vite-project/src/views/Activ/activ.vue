@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import ActivTable from "../../components/ActivList/index.vue";
+import ActivDetails from "../../components/ActivList/ActivDetails.vue";
 import { ref, reactive, onBeforeMount } from "vue";
 import { Search } from "@element-plus/icons-vue";
 const activlist = reactive({
   list: [
     { id: "1", name: "第一次运动会", time: "2022-03-03", result: "0" },
-    { id: "2", name: "第三次运动会", time: "2022-03-04", result: "1" },
+    { id: "2", name: "第二次运动会", time: "2022-03-04", result: "0" },
+    { id: "3", name: "第三次运动会", time: "2022-03-05", result: "1" },
   ],
 });
 const search = ref("");
@@ -15,8 +17,17 @@ const ac_search = (search: string) => {
     console.log(search);
   }
 };
+const showdetails = reactive({
+    result: false,
+    id: ''
+});
 const show_activ = (id: string) => {
-    console.log(id+'show_activ');
+  showdetails.id = id
+  showdetails.result = !showdetails.result
+  
+};
+const hide_activ = () => {
+    showdetails.result = !showdetails.result
 }
 </script>
 
@@ -42,11 +53,13 @@ const show_activ = (id: string) => {
         @show_activ="show_activ"
       ></ActivTable>
     </div>
+    <ActivDetails v-show="showdetails.result" :id="showdetails.id" @hide_activ="hide_activ"></ActivDetails>
   </div>
 </template>
 
 <style lang="less" scoped>
 .activcon {
+  position: relative;
   height: auto;
   min-height: 600px;
   .searchcon {

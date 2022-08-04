@@ -7,7 +7,6 @@ defineProps<{
 }>();
 const emit = defineEmits(["show_activ"]);
 const ac_details = (id: string) => {
-  console.log(id);
   //调用父组件的方法显示活动详情
   emit("show_activ",id);
 };
