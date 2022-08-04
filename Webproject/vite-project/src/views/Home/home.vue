@@ -45,6 +45,7 @@ onBeforeMount(() => {
   }
   h3 {
     text-align: center;
+    transform: translateY(25px);
     color: rgba(0, 0, 0, 0.6);
   }
 }

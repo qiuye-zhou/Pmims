@@ -42,7 +42,7 @@ onBeforeMount(() => {
       <el-table-column prop="aw_name" label="获奖项目名" width="180" />
       <el-table-column
         prop="aw_prize"
-        label="获奖等级"
+        label="所获奖项"
         :formatter="formatter"
       />
     </el-table>

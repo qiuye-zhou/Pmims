@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ActivList: typeof import('./src/components/ActivList/index.vue')['default']
     ActivTable: typeof import('./src/components/ActivTable/index.vue')['default']
     Aside: typeof import('./src/components/Aside/aside.vue')['default']
     CommonAside: typeof import('./src/components/Aside/CommonAside.vue')['default']

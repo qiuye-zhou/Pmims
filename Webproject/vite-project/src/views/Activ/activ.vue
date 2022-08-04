@@ -1,11 +1,23 @@
 <script lang="ts" setup>
-import ActivTable from "../../components/ActivTable/index.vue";
+import ActivTable from "../../components/ActivList/index.vue";
 import { ref, reactive, onBeforeMount } from "vue";
 import { Search } from "@element-plus/icons-vue";
 const activlist = reactive({
-  list: [{ id: '1',name: "第一次运动会",time: '2022-03-03',result: '0' },{ id: '2',name: "第三次运动会",time: '2022-03-04',result: '1' }],
+  list: [
+    { id: "1", name: "第一次运动会", time: "2022-03-03", result: "0" },
+    { id: "2", name: "第三次运动会", time: "2022-03-04", result: "1" },
+  ],
 });
 const search = ref("");
+const ac_search = (search: string) => {
+  //输入了内容才进行查询
+  if (search.length > 0) {
+    console.log(search);
+  }
+};
+const show_activ = (id: string) => {
+    console.log(id+'show_activ');
+}
 </script>
 
 <template>
@@ -18,10 +30,17 @@ const search = ref("");
         :prefix-icon="Search"
         size="large"
       />
-      <el-button type="info" round>搜索</el-button>
+      <el-button type="info" round @click="ac_search(search)">搜索</el-button>
     </div>
     <div class="container">
-        <ActivTable v-for="item in activlist.list" :id="item.id" :name="item.name" :time="item.time" :result="item.result"></ActivTable>
+      <ActivTable
+        v-for="item in activlist.list"
+        :id="item.id"
+        :name="item.name"
+        :time="item.time"
+        :result="item.result"
+        @show_activ="show_activ"
+      ></ActivTable>
     </div>
   </div>
 </template>
@@ -36,13 +55,12 @@ const search = ref("");
     align-items: center;
     padding: 10px;
     .search {
-        width: 300px;
-        margin-right: 16px;
+      width: 300px;
+      margin-right: 16px;
     }
   }
   .container {
     display: flex;
-    // justify-content: flex-start;
     flex-wrap: wrap;
     align-content: flex-start;
     padding: 10px;
