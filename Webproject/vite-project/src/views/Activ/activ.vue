@@ -3,12 +3,12 @@ import ActivTable from "../../components/ActivList/index.vue";
 import ActivDetails from "../../components/ActivList/ActivDetails.vue";
 import { ref, reactive, onBeforeMount } from "vue";
 import { Search } from "@element-plus/icons-vue";
+import { getactivity } from "../../api/user";
+import storage from "../../localstorage/localstorage";
+import { number } from "echarts";
 const activlist = reactive({
-  list: [
-    { id: "1", name: "第一次运动会", time: "2022-03-03", result: "0" },
-    { id: "2", name: "第二次运动会", time: "2022-03-04", result: "0" },
-    { id: "3", name: "第三次运动会", time: "2022-03-05", result: "1" },
-  ],
+  list: [],
+  userlist: [],
 });
 const search = ref("");
 const ac_search = (search: string) => {
@@ -18,17 +18,42 @@ const ac_search = (search: string) => {
   }
 };
 const showdetails = reactive({
-    result: false,
-    id: ''
+  result: false,
+  id: 0,
+  userjoin: false,
 });
-const show_activ = (id: string) => {
-  showdetails.id = id
-  showdetails.result = !showdetails.result
-  
+const show_activ = (id: number) => {
+  showdetails.id = id;
+  showdetails.result = !showdetails.result;
+  for (const x of activlist.list) {
+    if (x.activ_id == showdetails.id) {
+      showdetails.userjoin = x.userjoin;
+    }
+  }
 };
 const hide_activ = () => {
-    showdetails.result = !showdetails.result
-}
+  showdetails.result = !showdetails.result;
+};
+onBeforeMount(() => {
+  getactivity({ id: storage.get("data").id })
+    .then((res) => {
+      console.log(res);
+      activlist.list = res.data;
+      activlist.userlist = res.details;
+      for (const i of activlist.list) {
+        i.activ_time = i.activ_time.slice(0, 10);
+        for (const x of activlist.userlist) {
+          if (x.activ_id == i.activ_id) {
+            i.userjoin = true;
+          } else i.userjoin = false;
+        }
+      }
+      console.log(activlist.list);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 </script>
 
 <template>
@@ -46,14 +71,20 @@ const hide_activ = () => {
     <div class="container">
       <ActivTable
         v-for="item in activlist.list"
-        :id="item.id"
-        :name="item.name"
-        :time="item.time"
-        :result="item.result"
+        :id="item.activ_id"
+        :name="item.activ_name"
+        :time="item.activ_time"
+        :result="item.activ_result"
+        :userjoin="item.userjoin"
         @show_activ="show_activ"
       ></ActivTable>
     </div>
-    <ActivDetails v-show="showdetails.result" :id="showdetails.id" @hide_activ="hide_activ"></ActivDetails>
+    <ActivDetails
+      v-show="showdetails.result"
+      :id="showdetails.id"
+      :userjoin="showdetails.userjoin"
+      @hide_activ="hide_activ"
+    ></ActivDetails>
   </div>
 </template>
 

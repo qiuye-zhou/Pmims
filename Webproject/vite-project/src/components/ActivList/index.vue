@@ -1,17 +1,18 @@
 <script lang="ts" setup>
 defineProps<{
   name?: string;
-  id?: string;
+  id?: number;
   time?: string;
-  result?: string;
+  result?: number;
+  userjoin?: boolean;
 }>();
 const emit = defineEmits(["show_activ"]);
-const ac_details = (id: string) => {
+const ac_details = (id: number) => {
   //调用父组件的方法显示活动详情
-  emit("show_activ",id);
+  emit("show_activ", id);
 };
-const join_activ = (id: string) => {
-  console.log(id+'参加活动');
+const join_activ = (id: number) => {
+  console.log(id + "参加活动");
 };
 </script>
 
@@ -27,9 +28,10 @@ const join_activ = (id: string) => {
         <el-button type="primary" round @click="ac_details(id)"
           >活动详情</el-button
         >
-        <el-button type="success" round @click="join_activ(id)"
+        <el-button v-if="!userjoin" type="success" round @click="join_activ(id)"
           >参加活动</el-button
         >
+        <el-button v-if="userjoin" type="warning" round disabled>已参加</el-button>
       </div>
       <el-button v-if="result == 1" type="danger" round disabled
         >活动已结束</el-button
