@@ -9,12 +9,21 @@ const activlist = reactive({
   list: [],
   userlist: [],
   activ: {},
+  oldlist: [],
 });
 const search = ref("");
 const ac_search = (search: string) => {
   //输入了内容才进行查询
   if (search.length > 0) {
-    console.log(search);
+    const reslist = [];
+    for (const item of activlist.oldlist) {
+      if (item.activ_name.indexOf(search) >= 0) {
+        reslist.push(item);
+      }
+    }
+    activlist.list = reslist;
+  } else {
+    activlist.list = activlist.oldlist;
   }
 };
 const showdetails = reactive({
@@ -33,7 +42,7 @@ const show_activ = (id: number) => {
   getactivitywhole({ activ_id: showdetails.id }).then((res) => {
     console.log(res);
     activlist.activ = res.data[0];
-    activlist.activ.activ_time = activlist.activ.activ_time.slice(0,10)
+    activlist.activ.activ_time = activlist.activ.activ_time.slice(0, 10);
     console.log(activlist.activ);
   });
 };
@@ -53,6 +62,7 @@ onBeforeMount(() => {
           } else i.userjoin = false;
         }
       }
+      activlist.oldlist = activlist.list;
     })
     .catch((err) => {
       console.log(err);

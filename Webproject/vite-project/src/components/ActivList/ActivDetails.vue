@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import {join_active} from '../../api/user'
+import { join_active } from "../../api/user";
 import storage from "../../localstorage/localstorage";
 defineProps<{
   id?: number;
@@ -42,11 +42,15 @@ const join_activ = (id: number, name: string, user_id: number) => {
 
 <template>
   <div class="con">
-    <h3>{{ activ.activ_name }}</h3>
-    <div class="timetxt">
-      <el-icon><Clock /></el-icon>
-      <p>活动开始时间：{{ activ.activ_time }}</p>
-    </div>
+    <el-card shadow="hover">
+      <h3>{{ activ.activ_name }}</h3>
+    </el-card>
+    <el-card shadow="hover">
+      <div class="timetxt">
+        <el-icon><Clock /></el-icon>
+        <p>活动开始时间：{{ activ.activ_time }}</p>
+      </div>
+    </el-card>
     <el-card shadow="hover">
       <div>活动积分：{{ activ.activ_integral }}</div>
     </el-card>
@@ -98,15 +102,21 @@ const join_activ = (id: number, name: string, user_id: number) => {
   .join {
     position: absolute;
     right: 10px;
-    bottom: 60px;
+    bottom: 0px;
   }
   .timetxt {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     p {
       margin-left: 10px;
       color: rgb(121, 127, 131);
+    }
+  }
+  .el-card__body {
+    div {
+      padding: 10px;
+      color: rgb(123, 103, 103);
     }
   }
 }
