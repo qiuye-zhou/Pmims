@@ -15,6 +15,11 @@ export const user = [
         meta: { title: '所获奖项', icon: 'Medal' }
     },
     {
+        path: 'evaluate',
+        name: 'evaluate',
+        meta: { title: '活动评价', icon: 'ChatSquare' }
+    },
+    {
         path: 'user',
         name: 'user',
         meta: { title: '个人信息', icon: 'UserFilled' }

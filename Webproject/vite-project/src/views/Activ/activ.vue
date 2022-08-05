@@ -40,10 +40,8 @@ const show_activ = (id: number) => {
     }
   }
   getactivitywhole({ activ_id: showdetails.id }).then((res) => {
-    console.log(res);
     activlist.activ = res.data[0];
     activlist.activ.activ_time = activlist.activ.activ_time.slice(0, 10);
-    console.log(activlist.activ);
   });
 };
 const hide_activ = () => {

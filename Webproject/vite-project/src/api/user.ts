@@ -45,6 +45,15 @@ export function getactivitywhole(data: any) {
     })
 }
 
+//获取个人用户的所有评价信息
+export function getactiv_evalue(data: any) {
+    return request({
+        url: '/users/getactiv_evalue',
+        method: 'POST',
+        data
+    })
+}
+
 //操作
 //用户参加某个活动
 export function join_active(data: any) {

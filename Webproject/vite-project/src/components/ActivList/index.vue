@@ -19,7 +19,6 @@ const ac_details = (id: number) => {
   emit("show_activ", id);
 };
 const join_activ = (id: number, name: string, user_id: number) => {
-  console.log(user_id + "参加活动" + id);
   ElMessageBox.confirm(`你确认要参加—${name}?`, "确认", {
     confirmButtonText: "确定参加",
     cancelButtonText: "取消",
