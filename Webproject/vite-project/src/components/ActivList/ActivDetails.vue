@@ -1,23 +1,78 @@
 <script lang="ts" setup>
+import { ref, reactive } from "vue";
+import {join_active} from '../../api/user'
+import storage from "../../localstorage/localstorage";
 defineProps<{
   id?: number;
   userjoin?: boolean;
+  activ?: object;
 }>();
+let joinbtn = reactive({
+  res: false,
+});
 const emit = defineEmits(["hide_activ"]);
 const hide = () => {
   emit("hide_activ");
 };
-const join_activ = (id: number) => {
-  console.log(id + "参加活动");
+const join_activ = (id: number, name: string, user_id: number) => {
+  console.log(user_id + "参加活动" + id);
+  ElMessageBox.confirm(`你确认要参加—${name}?`, "确认", {
+    confirmButtonText: "确定参加",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      joinbtn.res = true;
+      join_active({ id: user_id, activ_id: id }).then((res) => {
+        ElMessage({
+          type: "success",
+          message: res.msg,
+        });
+      });
+      setTimeout(() => location.reload(), 3000);
+    })
+    .catch(() => {
+      ElMessage({
+        type: "info",
+        message: "取消",
+      });
+    });
 };
 </script>
 
 <template>
   <div class="con">
-    <h3>{{ id }}</h3>
+    <h3>{{ activ.activ_name }}</h3>
+    <div class="timetxt">
+      <el-icon><Clock /></el-icon>
+      <p>活动开始时间：{{ activ.activ_time }}</p>
+    </div>
+    <el-card shadow="hover">
+      <div>活动积分：{{ activ.activ_integral }}</div>
+    </el-card>
+    <el-card shadow="hover" header="活动简介：">
+      <div>
+        {{ activ.activ_describe }}
+      </div>
+    </el-card>
+    <el-card shadow="hover" header="活动详情：">
+      <div>
+        {{ activ.form }}
+      </div>
+    </el-card>
     <el-button class="hide" icon="CloseBold" circle @click="hide"></el-button>
-    <el-button v-if="!userjoin" type="success" round @click="join_activ(id)">参加活动</el-button>
-    <el-button v-if="userjoin" type="warning" round disabled>已参加</el-button>
+    <el-button
+      class="join"
+      v-if="!userjoin"
+      type="success"
+      round
+      :disabled="joinbtn.res"
+      @click="join_activ(id, activ.activ_name, storage.get('data').id)"
+      >参加活动</el-button
+    >
+    <el-button class="join" v-if="userjoin" type="warning" round disabled
+      >已参加</el-button
+    >
   </div>
 </template>
 
@@ -25,6 +80,7 @@ const join_activ = (id: number) => {
 .con {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.6);
+  color: rgb(120, 120, 120);
   top: 50%;
   left: 50%;
   backdrop-filter: blur(6px) saturate(1.8);
@@ -35,6 +91,23 @@ const join_activ = (id: number) => {
     position: absolute;
     top: 10px;
     right: 10px;
+  }
+  h3 {
+    text-align: center;
+  }
+  .join {
+    position: absolute;
+    right: 10px;
+    bottom: 60px;
+  }
+  .timetxt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      margin-left: 10px;
+      color: rgb(121, 127, 131);
+    }
   }
 }
 </style>

@@ -3,12 +3,12 @@ import ActivTable from "../../components/ActivList/index.vue";
 import ActivDetails from "../../components/ActivList/ActivDetails.vue";
 import { ref, reactive, onBeforeMount } from "vue";
 import { Search } from "@element-plus/icons-vue";
-import { getactivity } from "../../api/user";
+import { getactivity, getactivitywhole } from "../../api/user";
 import storage from "../../localstorage/localstorage";
-import { number } from "echarts";
 const activlist = reactive({
   list: [],
   userlist: [],
+  activ: {},
 });
 const search = ref("");
 const ac_search = (search: string) => {
@@ -30,6 +30,12 @@ const show_activ = (id: number) => {
       showdetails.userjoin = x.userjoin;
     }
   }
+  getactivitywhole({ activ_id: showdetails.id }).then((res) => {
+    console.log(res);
+    activlist.activ = res.data[0];
+    activlist.activ.activ_time = activlist.activ.activ_time.slice(0,10)
+    console.log(activlist.activ);
+  });
 };
 const hide_activ = () => {
   showdetails.result = !showdetails.result;
@@ -37,7 +43,6 @@ const hide_activ = () => {
 onBeforeMount(() => {
   getactivity({ id: storage.get("data").id })
     .then((res) => {
-      console.log(res);
       activlist.list = res.data;
       activlist.userlist = res.details;
       for (const i of activlist.list) {
@@ -48,7 +53,6 @@ onBeforeMount(() => {
           } else i.userjoin = false;
         }
       }
-      console.log(activlist.list);
     })
     .catch((err) => {
       console.log(err);
@@ -83,6 +87,7 @@ onBeforeMount(() => {
       v-show="showdetails.result"
       :id="showdetails.id"
       :userjoin="showdetails.userjoin"
+      :activ="activlist.activ"
       @hide_activ="hide_activ"
     ></ActivDetails>
   </div>

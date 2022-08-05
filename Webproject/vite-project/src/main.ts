@@ -7,16 +7,17 @@ import storage from './localstorage/localstorage'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import "element-plus/theme-chalk/el-message-box.css";
 
 const app = createApp(App)
 app.use(router)
 app.use(createPinia())
 app.use(ElementPlus, {
     locale: zhCn,
-  })
+})
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
-    }
+}
 import useMeunStore from './store/meun'
 const store = useMeunStore()
 router.beforeEach((to, from, next) => {
@@ -29,22 +30,22 @@ router.beforeEach((to, from, next) => {
         if (token && to.name == 'login') {
             next({ name: 'home' })
         } else {
-            if(token) {
-                if(storage.get('data').grade == 3) {
-                    if(to.name == 'adminactiv' || to.name == 'userlist' || to.name =='userdetails') {
+            if (token) {
+                if (storage.get('data').grade == 3) {
+                    if (to.name == 'adminactiv' || to.name == 'userlist' || to.name == 'userdetails') {
                         next('404')
                     } else {
                         next()
                     }
                 } else {
-                    if(storage.get('data').grade == 2) {
-                        if(to.name == 'activ' || to.name == 'prize' || to.name == 'userlist') {
+                    if (storage.get('data').grade == 2) {
+                        if (to.name == 'activ' || to.name == 'prize' || to.name == 'userlist') {
                             next('404')
                         } else {
                             next()
                         }
                     } else {
-                        if(to.name == 'activ' || to.name == 'prize') {
+                        if (to.name == 'activ' || to.name == 'prize') {
                             next('404')
                         } else {
                             next()
