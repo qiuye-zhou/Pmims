@@ -56,7 +56,7 @@ onBeforeMount(() => {
           !store.isCollapse
             ? grade.grade == 3
               ? "用户"
-              : grade.grade == 2 ? '管理员' : '超级管理员'
+              : grade.grade == 2 ? '管理员' : '高级管理员'
             : "面板"
         }}
       </h5>

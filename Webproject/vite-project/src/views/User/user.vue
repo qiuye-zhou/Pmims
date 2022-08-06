@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { onMounted } from "vue";
 import { getUser, getintegral_rank } from "../../api/user";
 import storage from "../../localstorage/localstorage";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 let userinfo = reactive({
   department: "",
   integral: "",

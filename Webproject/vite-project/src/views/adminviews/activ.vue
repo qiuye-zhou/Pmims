@@ -10,6 +10,7 @@
 
 <style lang="less" scoped>
 div {
+    padding: 20px;
     border: 1px solid red;
     height: 500px;
 }

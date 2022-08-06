@@ -9,7 +9,7 @@ const value = ref(new Date());
 
 let user = reactive({
   grade: "0",
-  role: "超级管理员",
+  role: "高级管理员",
   name: "",
 });
 const pie = reactive({

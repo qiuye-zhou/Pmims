@@ -8,6 +8,14 @@ export function getuser_list() {
     })
 }
 
+//admin获取用户信息列表
+export function getall_list() {
+    return request({
+        url: '/admin/getall_list',
+        method: 'POST',
+    })
+}
+
 //admin获取所有的简易活动信息
 export function getactiv_all() {
     return request({

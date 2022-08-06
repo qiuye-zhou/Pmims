@@ -63,7 +63,7 @@ export const supadmin = [
     {
         path: 'userlist',
         name: 'userlist',
-        meta: { title: '用户管理', icon: 'User' }
+        meta: { title: '账号管理', icon: 'User' }
     },
     {
         path: 'userdetails',

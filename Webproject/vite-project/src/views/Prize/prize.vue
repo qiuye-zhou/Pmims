@@ -36,6 +36,7 @@ onBeforeMount(() => {
     <el-table
       :data="user.list"
       :default-sort="{ prop: 'date', order: 'descending' }"
+      empty-text="暂无获奖信息"
       style="width: 100%"
     >
       <el-table-column prop="aw_time" label="获奖时间" sortable width="180" />

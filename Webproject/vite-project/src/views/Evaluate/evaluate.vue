@@ -74,6 +74,7 @@ const Submitvalue = (id: number) => {
     <el-table
       :data="evaluate.list"
       style="width: 100%"
+      empty-text="暂无评价信息"
       :row-class-name="tableRowClassName"
     >
       <el-table-column prop="activ_name" label="活动名称" width="180" />
@@ -126,6 +127,7 @@ const Submitvalue = (id: number) => {
 <style>
 .divcon {
   min-height: 600px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
