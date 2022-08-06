@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getactiv_evalue } from "../../api/user";
+import { getactiv_evalue,activ_evaluate } from "../../api/user";
 import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
 
@@ -51,7 +51,21 @@ const opensub = (id: number) => {
 };
 const Submitvalue = (id: number) => {
   dialogFormVisible.value = false;
-  console.log(form.ac_id, "Submit", form.evaluate_x);
+  if (form.evaluate_x.toString().length > 3) {
+    activ_evaluate({
+      id: storage.get("data").id,
+      activ_id: form.ac_id,
+      evaluate_x: form.evaluate_x,
+    }).then((res) => {
+      ElMessage({
+        message: res.msg,
+        type: "success",
+      });
+    });
+  } else {
+    ElMessage.error("评论不要少于三个，请多评价一点吧");
+  }
+  form.evaluate_x = "";
 };
 </script>
 

@@ -55,9 +55,9 @@ onBeforeMount(() => {
       for (const i of activlist.list) {
         i.activ_time = i.activ_time.slice(0, 10);
         for (const x of activlist.userlist) {
-          if (x.activ_id == i.activ_id) {
+          if (i.activ_id == x.activ_id) {
             i.userjoin = true;
-          } else i.userjoin = false;
+          }
         }
       }
       activlist.oldlist = activlist.list;
