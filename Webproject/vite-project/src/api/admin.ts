@@ -52,7 +52,7 @@ export function add_activ(data: any) {
     })
 }
 
-//添加用户
+//添加账户
 export function adduser_api(data: any) {
     return request({
         url: '/admin/adduser',
@@ -61,10 +61,19 @@ export function adduser_api(data: any) {
     })
 }
 
-//修改用户
+//修改账户
 export function edituser(data: any) {
     return request({
         url: '/admin/edituser',
+        method: 'POST',
+        data
+    })
+}
+
+//删除账户
+export function removeuser(data: any) {
+    return request({
+        url: '/admin/removeuser',
         method: 'POST',
         data
     })

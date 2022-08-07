@@ -1,7 +1,12 @@
 <script lang="ts" setup>
 import storage from "../../localstorage/localstorage";
 import { reactive, ref, onMounted } from "vue";
-import { getall_list, adduser_api, edituser } from "../../api/admin";
+import {
+  getall_list,
+  adduser_api,
+  edituser,
+  removeuser,
+} from "../../api/admin";
 import { Plus, Delete, Search, Edit } from "@element-plus/icons-vue";
 // import Commedit from "../../components/userlist/edit.vue";
 
@@ -51,18 +56,23 @@ const ac_search = () => {
   search.value = "";
 };
 const remove = (id) => {
-  console.log("remove", id);
   ElMessageBox.confirm("你确定要删除此账户?", "警告", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning",
   })
     .then(() => {
-      ElMessage({
-        type: "success",
-        message: "删除成功",
+      removeuser({ id: id }).then((res) => {
+        if (res.code == 200) {
+          ElMessage({
+            type: "success",
+            message: res.msg,
+          });
+        } else {
+          ElMessage.error(res.msg);
+        }
       });
-      updata();
+      setTimeout(() => location.reload(), 3000);
     })
     .catch(() => {
       ElMessage({
@@ -88,8 +98,6 @@ const edit = (list) => {
 };
 //edit
 const subedit = () => {
-  console.log(accuser);
-  console.log(type.value);
   if (
     accuser.name &&
     accuser.sex &&
@@ -104,6 +112,7 @@ const subedit = () => {
         edituser_api();
         Reset();
         dialogFormVisible.value = false;
+        setTimeout(() => location.reload(), 3000);
       }
     } else {
       if (
@@ -117,6 +126,7 @@ const subedit = () => {
         adduser_api_fun();
         Reset();
         dialogFormVisible.value = false;
+        setTimeout(() => location.reload(), 3000);
       }
     }
   } else {
