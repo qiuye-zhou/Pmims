@@ -22,6 +22,8 @@ const accuser = reactive({
   grade: null,
 });
 let type = ref("edit");
+let gra = ref(false);
+let dep = ref(false);
 const formLabelWidth = "140px";
 onMounted(() => {
   updata();
@@ -89,13 +91,50 @@ const edit = (list) => {
 //edit
 const subedit = () => {
   console.log(accuser);
-  Reset()
-  dialogFormVisible.value = false;
+  console.log(type.value);
+  if (type.value == "edit") {
+    if (accuser.password.length <= 5) {
+      ElMessage.error("密码长度不能小于5！");
+    } else {
+      Reset();
+      dialogFormVisible.value = false;
+    }
+  } else {
+    if (
+      !accuser.number ||
+      !accuser.password ||
+      accuser.number.length <= 5 ||
+      accuser.password.length <= 5
+    ) {
+      ElMessage.error("账号或者密码长度不能小于5！");
+    } else {
+      Reset();
+      dialogFormVisible.value = false;
+    }
+  }
 };
 const hide_edit = () => {
   console.log("hide");
-  Reset()
+  Reset();
   dialogFormVisible.value = false;
+};
+const change = () => {
+  if (accuser.grade != 3) {
+    accuser.department = "管理员";
+    gra.value = true;
+  } else {
+    gra.value = false;
+    accuser.department = null;
+  }
+};
+const changed = () => {
+  if ((accuser.department == "管理员")) {
+    accuser.grade = 1;
+    dep.value = true;
+  } else {
+    dep.value = false;
+    accuser.grade = null;
+  }
 };
 const Reset = () => {
   accuser.id = null;
@@ -155,16 +194,13 @@ const Reset = () => {
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog v-model="dialogFormVisible" title="修改用户信息">
+      <el-dialog
+        v-model="dialogFormVisible"
+        :title="type == 'edit' ? '修改用户信息' : '添加账户'"
+        @close="hide_edit"
+      >
         <el-form :model="accuser">
-          <!-- <el-form-item label="ID" :label-width="formLabelWidth">
-            <el-input v-model="accuser.id" autocomplete="off" />
-          </el-form-item> -->
-          <el-form-item
-            label="姓名"
-            :label-width="formLabelWidth"
-            @close="hide_edit"
-          >
+          <el-form-item label="姓名" :label-width="formLabelWidth">
             <el-input v-model="accuser.name" autocomplete="off" />
           </el-form-item>
           <el-form-item
@@ -172,22 +208,45 @@ const Reset = () => {
             label="账户"
             :label-width="formLabelWidth"
           >
-            <el-input v-model="accuser.number" autocomplete="off" />
+            <el-input
+              v-model="accuser.number"
+              autocomplete="off"
+              maxlength="12"
+              show-word-limit
+            />
           </el-form-item>
           <el-form-item label="密码" :label-width="formLabelWidth">
-            <el-input v-model="accuser.password" autocomplete="off" />
+            <el-input
+              v-model="accuser.password"
+              autocomplete="off"
+              maxlength="12"
+              show-word-limit
+            />
           </el-form-item>
           <el-form-item label="性别" :label-width="formLabelWidth">
             <el-input v-model="accuser.sex" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="部门" :label-width="formLabelWidth">
-            <el-input v-model="accuser.department" autocomplete="off" />
+          <el-form-item
+            label="部门"
+            :label-width="formLabelWidth"
+            @change="changed"
+          >
+            <el-input
+              v-model="accuser.department"
+              autocomplete="off"
+              :disabled="gra"
+            />
           </el-form-item>
           <el-form-item label="入党时间" :label-width="formLabelWidth">
             <el-input v-model="accuser.jointime" autocomplete="off" />
           </el-form-item>
           <el-form-item label="权限等级" :label-width="formLabelWidth">
-            <el-select v-model="accuser.grade" placeholder="选择权限等级">
+            <el-select
+              v-model="accuser.grade"
+              placeholder="选择权限等级"
+              @change="change"
+              :disabled="dep"
+            >
               <el-option label="1" value="1" />
               <el-option label="2" value="2" />
               <el-option label="3" value="3" />
@@ -197,7 +256,9 @@ const Reset = () => {
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="hide_edit">取消</el-button>
-            <el-button type="primary" @click="subedit">修改</el-button>
+            <el-button type="primary" @click="subedit">{{
+              type == "edit" ? "修改" : "提交"
+            }}</el-button>
           </span>
         </template>
       </el-dialog>
