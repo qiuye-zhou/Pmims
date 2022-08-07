@@ -94,7 +94,7 @@ const ac_search = () => {
         :prefix-icon="Search"
         size="large"
       />
-      <el-button type="primary" @click="ac_search">搜索</el-button>
+      <el-button type="primary" @click="ac_search">查询</el-button>
     </div>
     <el-table
       :data="evaluate.list"

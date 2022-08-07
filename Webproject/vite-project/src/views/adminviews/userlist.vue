@@ -3,13 +3,30 @@ import storage from "../../localstorage/localstorage";
 import { reactive, ref, onMounted } from "vue";
 import { getall_list } from "../../api/admin";
 import { Plus, Delete, Search, Edit } from "@element-plus/icons-vue";
+// import Commedit from "../../components/userlist/edit.vue";
 
 const account = reactive({
   list: [],
   oldlist: [],
 });
 let search = ref("");
+let dialogFormVisible = ref(false);
+const accuser = reactive({
+  id: null,
+  name: "",
+  number: "",
+  password: "",
+  sex: "",
+  department: "",
+  jointime: "",
+  grade: null,
+});
+let type = ref("edit");
+const formLabelWidth = "140px";
 onMounted(() => {
+  updata();
+});
+const updata = () => {
   getall_list().then((res) => {
     account.list = res.data;
     for (const item of account.list) {
@@ -18,7 +35,7 @@ onMounted(() => {
     account.oldlist = account.list;
     console.log(account.list);
   });
-});
+};
 const ac_search = () => {
   if (search.value == "") {
     account.list = account.oldlist;
@@ -32,6 +49,64 @@ const ac_search = () => {
   }
   search.value = "";
 };
+const remove = (id) => {
+  console.log("remove", id);
+  ElMessageBox.confirm("你确定要删除此账户?", "警告", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      ElMessage({
+        type: "success",
+        message: "删除成功",
+      });
+      updata();
+    })
+    .catch(() => {
+      ElMessage({
+        type: "info",
+        message: "取消",
+      });
+    });
+};
+const adduser = () => {
+  type.value = "add";
+  dialogFormVisible.value = true;
+  console.log(accuser);
+};
+const edit = (list) => {
+  type.value = "edit";
+  dialogFormVisible.value = true;
+  accuser.id = list.id;
+  accuser.name = list.name;
+  accuser.password = list.password;
+  accuser.sex = list.sex;
+  accuser.department = list.department;
+  accuser.jointime = list.jointime;
+  accuser.grade = list.grade;
+};
+//edit
+const subedit = () => {
+  console.log(accuser);
+  Reset()
+  dialogFormVisible.value = false;
+};
+const hide_edit = () => {
+  console.log("hide");
+  Reset()
+  dialogFormVisible.value = false;
+};
+const Reset = () => {
+  accuser.id = null;
+  accuser.name = null;
+  accuser.number = null;
+  accuser.password = null;
+  accuser.sex = null;
+  accuser.department = null;
+  accuser.jointime = null;
+  accuser.grade = null;
+};
 </script>
 
 <template>
@@ -40,12 +115,12 @@ const ac_search = () => {
       <el-input
         v-model="search"
         class="search"
-        placeholder="请输入要搜索的活动名..."
+        placeholder="请输入要查询的活动名..."
         :prefix-icon="Search"
         size="large"
       />
-      <el-button type="primary" @click="ac_search">搜索</el-button>
-      <el-button type="primary" class="add">添加</el-button>
+      <el-button type="primary" @click="ac_search">查询</el-button>
+      <el-button type="primary" class="add" @click="adduser">添加</el-button>
       <el-tooltip
         content="3->普通用户权限; 2->普通管理员权限; 1->高级管理员权限;"
         placement="top"
@@ -64,11 +139,80 @@ const ac_search = () => {
         <el-table-column prop="grade" label="权限等级" />
         <el-table-column prop="id" label="操作">
           <template #default="scope">
-            <el-button type="primary" :icon="Edit" circle />
-            <el-button type="danger" :icon="Delete" circle class="danger" />
+            <el-button
+              type="primary"
+              :icon="Edit"
+              circle
+              @click.prevent="edit(scope.row)"
+            />
+            <el-button
+              type="danger"
+              :icon="Delete"
+              circle
+              class="danger"
+              @click="remove(scope.row.id)"
+            />
           </template>
         </el-table-column>
       </el-table>
+      <el-dialog v-model="dialogFormVisible" title="修改用户信息">
+        <el-form :model="accuser">
+          <!-- <el-form-item label="ID" :label-width="formLabelWidth">
+            <el-input v-model="accuser.id" autocomplete="off" />
+          </el-form-item> -->
+          <el-form-item
+            label="姓名"
+            :label-width="formLabelWidth"
+            @close="hide_edit"
+          >
+            <el-input v-model="accuser.name" autocomplete="off" />
+          </el-form-item>
+          <el-form-item
+            v-if="type == 'add'"
+            label="账户"
+            :label-width="formLabelWidth"
+          >
+            <el-input v-model="accuser.number" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="密码" :label-width="formLabelWidth">
+            <el-input v-model="accuser.password" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="性别" :label-width="formLabelWidth">
+            <el-input v-model="accuser.sex" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="部门" :label-width="formLabelWidth">
+            <el-input v-model="accuser.department" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="入党时间" :label-width="formLabelWidth">
+            <el-input v-model="accuser.jointime" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="权限等级" :label-width="formLabelWidth">
+            <el-select v-model="accuser.grade" placeholder="选择权限等级">
+              <el-option label="1" value="1" />
+              <el-option label="2" value="2" />
+              <el-option label="3" value="3" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="hide_edit">取消</el-button>
+            <el-button type="primary" @click="subedit">修改</el-button>
+          </span>
+        </template>
+      </el-dialog>
+      <!-- <Commedit
+        :dialogFormVisible="dialogFormVisible"
+        :id="accuser.id"
+        :name="accuser.name"
+        :password="accuser.password"
+        :sex="accuser.sex"
+        :department="accuser.department"
+        :jointime="accuser.jointime"
+        :grade="accuser.grade"
+        @hide_edit="hide_edit"
+        @subedit="subedit"
+      ></Commedit> -->
     </div>
   </div>
 </template>
