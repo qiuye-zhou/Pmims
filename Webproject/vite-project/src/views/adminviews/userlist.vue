@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import storage from "../../localstorage/localstorage";
 import { reactive, ref, onMounted } from "vue";
-import { getall_list, adduser_api } from "../../api/admin";
+import { getall_list, adduser_api, edituser } from "../../api/admin";
 import { Plus, Delete, Search, Edit } from "@element-plus/icons-vue";
 // import Commedit from "../../components/userlist/edit.vue";
 
@@ -101,6 +101,7 @@ const subedit = () => {
       if (accuser.password.length <= 5) {
         ElMessage.error("密码长度不能小于5！");
       } else {
+        edituser_api();
         Reset();
         dialogFormVisible.value = false;
       }
@@ -142,8 +143,28 @@ const adduser_api_fun = () => {
     }
   });
 };
+const edituser_api = () => {
+  edituser({
+    id: accuser.id,
+    number: accuser.number,
+    password: accuser.password,
+    grade: accuser.grade,
+    name: accuser.name,
+    sex: accuser.sex,
+    department: accuser.department,
+    jointime: accuser.jointime,
+  }).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
+        message: res.msg,
+        type: "success",
+      });
+    } else {
+      ElMessage.error(res.msg);
+    }
+  });
+};
 const hide_edit = () => {
-  console.log("hide");
   Reset();
   dialogFormVisible.value = false;
 };
@@ -251,11 +272,7 @@ const Reset = () => {
             />
           </el-form-item>
           <el-form-item label="性别" :label-width="formLabelWidth">
-            <el-select
-              v-model="accuser.sex"
-              placeholder="选择性别"
-              :disabled="dep"
-            >
+            <el-select v-model="accuser.sex" placeholder="选择性别">
               <el-option label="男" value="男" />
               <el-option label="女" value="女" />
             </el-select>
@@ -276,6 +293,8 @@ const Reset = () => {
               v-model="accuser.jointime"
               type="date"
               placeholder="选择日期"
+              format="YYYY/MM/DD"
+              value-format="YYYY-MM-DD"
             />
           </el-form-item>
           <el-form-item label="权限等级" :label-width="formLabelWidth">
