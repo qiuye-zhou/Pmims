@@ -37,7 +37,6 @@ const ac_search = () => {
 <template>
   <div class="userlistcon">
     <div class="top">
-      <el-button type="primary" :icon="Plus" class="add">添加</el-button>
       <el-input
         v-model="search"
         class="search"
@@ -45,7 +44,8 @@ const ac_search = () => {
         :prefix-icon="Search"
         size="large"
       />
-      <el-button type="info" round @click="ac_search">搜索</el-button>
+      <el-button type="primary" @click="ac_search">搜索</el-button>
+      <el-button type="primary" class="add">添加</el-button>
       <el-tooltip
         content="3->普通用户权限; 2->普通管理员权限; 1->高级管理员权限;"
         placement="top"

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { getactiv_evalue,activ_evaluate } from "../../api/user";
+import { getactiv_evalue, activ_evaluate } from "../../api/user";
 import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
+import { Search } from "@element-plus/icons-vue";
 
 const dialogFormVisible = ref(false);
 const form = reactive({
@@ -32,7 +33,9 @@ const tableRowClassName = ({
 };
 const evaluate = reactive({
   list: [],
+  oldlist: [],
 });
+let search = ref("");
 onBeforeMount(() => {
   getactiv_evalue({ id: storage.get("data").id }).then((res) => {
     evaluate.list = res.data;
@@ -43,6 +46,7 @@ onBeforeMount(() => {
       if (item.deta_win == 0) item.deta_win = "未获奖";
       else item.deta_win = "获奖";
     }
+    evaluate.oldlist = evaluate.list;
   });
 });
 const opensub = (id: number) => {
@@ -67,10 +71,31 @@ const Submitvalue = (id: number) => {
   }
   form.evaluate_x = "";
 };
+const ac_search = () => {
+  if (search.value != "") {
+    evaluate.list = [];
+    for (const item of evaluate.oldlist) {
+      if (item.activ_name.indexOf(search.value) >= 0) {
+        evaluate.list.push(item);
+      }
+    }
+  } else evaluate.list = evaluate.oldlist;
+  search.value = "";
+};
 </script>
 
 <template>
   <div class="divcon">
+    <div class="top">
+      <el-input
+        v-model="search"
+        class="search"
+        placeholder="请输入要搜索的活动名..."
+        :prefix-icon="Search"
+        size="large"
+      />
+      <el-button type="primary" @click="ac_search">搜索</el-button>
+    </div>
     <el-table
       :data="evaluate.list"
       style="width: 100%"
@@ -124,13 +149,21 @@ const Submitvalue = (id: number) => {
   </div>
 </template>
 
-<style>
+<style lang="less" scoped>
 .divcon {
   min-height: 600px;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  .top {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    .search {
+      width: 300px;
+      margin-right: 16px;
+    }
+  }
 }
 .el-table .info-row {
   --el-table-tr-bg-color: var(--el-color-info-light-9);
