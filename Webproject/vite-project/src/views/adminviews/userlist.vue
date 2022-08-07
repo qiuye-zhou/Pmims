@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import storage from "../../localstorage/localstorage";
 import { reactive, ref, onMounted } from "vue";
-import { getall_list } from "../../api/admin";
+import { getall_list, adduser_api } from "../../api/admin";
 import { Plus, Delete, Search, Edit } from "@element-plus/icons-vue";
 // import Commedit from "../../components/userlist/edit.vue";
 
@@ -35,7 +35,6 @@ const updata = () => {
       item.jointime = item.jointime.slice(0, 10);
     }
     account.oldlist = account.list;
-    console.log(account.list);
   });
 };
 const ac_search = () => {
@@ -75,7 +74,6 @@ const remove = (id) => {
 const adduser = () => {
   type.value = "add";
   dialogFormVisible.value = true;
-  console.log(accuser);
 };
 const edit = (list) => {
   type.value = "edit";
@@ -92,26 +90,57 @@ const edit = (list) => {
 const subedit = () => {
   console.log(accuser);
   console.log(type.value);
-  if (type.value == "edit") {
-    if (accuser.password.length <= 5) {
-      ElMessage.error("密码长度不能小于5！");
+  if (
+    accuser.name &&
+    accuser.sex &&
+    accuser.department &&
+    accuser.jointime &&
+    accuser.grade
+  ) {
+    if (type.value == "edit") {
+      if (accuser.password.length <= 5) {
+        ElMessage.error("密码长度不能小于5！");
+      } else {
+        Reset();
+        dialogFormVisible.value = false;
+      }
     } else {
-      Reset();
-      dialogFormVisible.value = false;
+      if (
+        !accuser.number ||
+        !accuser.password ||
+        accuser.number.length <= 5 ||
+        accuser.password.length <= 5
+      ) {
+        ElMessage.error("账号或者密码长度不能小于5！");
+      } else {
+        adduser_api_fun();
+        Reset();
+        dialogFormVisible.value = false;
+      }
     }
   } else {
-    if (
-      !accuser.number ||
-      !accuser.password ||
-      accuser.number.length <= 5 ||
-      accuser.password.length <= 5
-    ) {
-      ElMessage.error("账号或者密码长度不能小于5！");
-    } else {
-      Reset();
-      dialogFormVisible.value = false;
-    }
+    ElMessage.error("请填好所有的信息！");
   }
+};
+const adduser_api_fun = () => {
+  adduser_api({
+    number: accuser.number,
+    password: accuser.password,
+    grade: accuser.grade,
+    name: accuser.name,
+    sex: accuser.sex,
+    department: accuser.department,
+    jointime: accuser.jointime,
+  }).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
+        message: res.msg,
+        type: "success",
+      });
+    } else {
+      ElMessage.error(res.msg);
+    }
+  });
 };
 const hide_edit = () => {
   console.log("hide");
@@ -124,16 +153,14 @@ const change = () => {
     gra.value = true;
   } else {
     gra.value = false;
-    accuser.department = null;
   }
 };
 const changed = () => {
-  if ((accuser.department == "管理员")) {
+  if (accuser.department == "管理员") {
     accuser.grade = 1;
     dep.value = true;
   } else {
     dep.value = false;
-    accuser.grade = null;
   }
 };
 const Reset = () => {
@@ -224,7 +251,14 @@ const Reset = () => {
             />
           </el-form-item>
           <el-form-item label="性别" :label-width="formLabelWidth">
-            <el-input v-model="accuser.sex" autocomplete="off" />
+            <el-select
+              v-model="accuser.sex"
+              placeholder="选择性别"
+              :disabled="dep"
+            >
+              <el-option label="男" value="男" />
+              <el-option label="女" value="女" />
+            </el-select>
           </el-form-item>
           <el-form-item
             label="部门"
@@ -238,7 +272,11 @@ const Reset = () => {
             />
           </el-form-item>
           <el-form-item label="入党时间" :label-width="formLabelWidth">
-            <el-input v-model="accuser.jointime" autocomplete="off" />
+            <el-date-picker
+              v-model="accuser.jointime"
+              type="date"
+              placeholder="选择日期"
+            />
           </el-form-item>
           <el-form-item label="权限等级" :label-width="formLabelWidth">
             <el-select
@@ -262,18 +300,6 @@ const Reset = () => {
           </span>
         </template>
       </el-dialog>
-      <!-- <Commedit
-        :dialogFormVisible="dialogFormVisible"
-        :id="accuser.id"
-        :name="accuser.name"
-        :password="accuser.password"
-        :sex="accuser.sex"
-        :department="accuser.department"
-        :jointime="accuser.jointime"
-        :grade="accuser.grade"
-        @hide_edit="hide_edit"
-        @subedit="subedit"
-      ></Commedit> -->
     </div>
   </div>
 </template>

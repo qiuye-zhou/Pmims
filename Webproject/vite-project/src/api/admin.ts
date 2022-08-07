@@ -52,6 +52,15 @@ export function add_activ(data: any) {
     })
 }
 
+//添加用户
+export function adduser_api(data: any) {
+    return request({
+        url: '/admin/adduser',
+        method: 'POST',
+        data
+    })
+}
+
 //echarts数据
 //用户参加活动率(用户参加活动总数量 / 活动总数量*用户数量)——pie
 export function getechartspie_useractiv() {
