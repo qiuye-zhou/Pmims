@@ -2,6 +2,10 @@
 import { Search } from "@element-plus/icons-vue";
 import { reactive, ref, onMounted } from "vue";
 import { getuser_list } from "../../api/admin";
+import { getechartspie } from "../../api/user";
+import ActivDe from "../../components/userdetails/ActivDe.vue";
+import Examine from "../../components/userdetails/Examine.vue";
+import HomePie from "../../views/Home/HomePie.vue";
 const getuserlist = () => {
   getuser_list().then((res) => {
     userlist.list = res.data;
@@ -13,10 +17,46 @@ onMounted(() => {
   getuserlist();
 });
 let search = ref("");
+let ActivDeshow = ref(false);
+let Examineeshow = ref(false);
+const userone = reactive({
+  name: null,
+  id: null,
+  num: null,
+  join_num: null,
+  result: false,
+});
+const hide_ex = () => {
+  Examineeshow.value = false;
+};
+const show_ex = (data) => {
+  userone.name = data.name;
+  Examineeshow.value = true;
+};
+const hide_ac = () => {
+  ActivDeshow.value = false;
+  userone.result = false;
+};
+const show_ac = (data) => {
+  userone.name = data.name;
+  userone.id = data.id;
+  getpie();
+  ActivDeshow.value = true;
+};
 const userlist = reactive({
   list: [],
   oldlist: [],
 });
+//pie数据获取
+const getpie = () => {
+  getechartspie({ id: userone.id }).then((res) => {
+    userone.num = res.data.active_num;
+    userone.join_num = res.data.join_num;
+    userone.result = true;
+    console.log(userone);
+  });
+};
+//查询
 const user_search = () => {
   userlist.list = [];
   if (search.value == "") {
@@ -56,11 +96,28 @@ const user_search = () => {
       <el-table-column prop="department" label="部门" />
       <el-table-column prop="id" label="操作" min-width="120px">
         <template #default="scope">
-          <el-button type="primary" size="small">活动信息</el-button>
-          <el-button type="primary" size="small">审核信息</el-button>
+          <el-button type="primary" size="small" @click="show_ac(scope.row)"
+            >活动信息</el-button
+          >
+          <el-button type="primary" size="small" @click="show_ex(scope.row)"
+            >审核信息</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
+    <ActivDe
+      :dialogTableVisible="ActivDeshow"
+      :name="userone.name"
+      :num="userone.num"
+      :join_num="userone.join_num"
+      :result="userone.result"
+      @hide_ac="hide_ac"
+    ></ActivDe>
+    <Examine
+      :dialogTableVisible="Examineeshow"
+      :name="userone.name"
+      @hide_ex="hide_ex"
+    ></Examine>
   </div>
 </template>
 

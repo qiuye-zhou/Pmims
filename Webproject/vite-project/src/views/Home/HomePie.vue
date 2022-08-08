@@ -76,5 +76,5 @@ export default {
 </script>
 
 <template>
-  <div ref="chart1" class="char" style="width: 300px; height: 200px"></div>
+  <div ref="chart1" class="char" style="width: 300px; height: 210px"></div>
 </template>

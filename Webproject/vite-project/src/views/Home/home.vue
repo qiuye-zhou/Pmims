@@ -3,7 +3,6 @@ import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
 import { getUsername } from "../../api/useradmin";
 import { getechartspie } from "../../api/user";
-// import { number } from "echarts";
 import HomePie from "./HomePie.vue";
 const value = ref(new Date());
 

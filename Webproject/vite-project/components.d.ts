@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ActivDe: typeof import('./src/components/userdetails/ActivDe.vue')['default']
     ActivDetails: typeof import('./src/components/ActivList/ActivDetails.vue')['default']
     ActivList: typeof import('./src/components/ActivList/index.vue')['default']
     ActivTable: typeof import('./src/components/ActivTable/index.vue')['default']
@@ -51,6 +52,7 @@ declare module '@vue/runtime-core' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    Examine: typeof import('./src/components/userdetails/Examine.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
