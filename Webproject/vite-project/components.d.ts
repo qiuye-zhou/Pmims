@@ -56,6 +56,7 @@ declare module '@vue/runtime-core' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SubPrize: typeof import('./src/components/Prize/SubPrize.vue')['default']
     Tag: typeof import('./src/components/Tag/tag.vue')['default']
     Tage: typeof import('./src/components/Tag/tage.vue')['default']
   }

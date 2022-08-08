@@ -73,6 +73,15 @@ export function activ_evaluate(data: any) {
     })
 }
 
+//用户提交审核
+export function subprize(data: any) {
+    return request({
+        url: '/users/subprize',
+        method: 'POST',
+        data
+    })
+}
+
 //echarts数据
 //活动总数量/该用户参加活动的数量——pie
 export function getechartspie(data: any) {

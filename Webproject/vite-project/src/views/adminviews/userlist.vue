@@ -29,7 +29,7 @@ const accuser = reactive({
 let type = ref("edit");
 let gra = ref(false);
 let dep = ref(false);
-const formLabelWidth = "140px";
+const formLabelWidth = "120px";
 onMounted(() => {
   updata();
 });
@@ -227,14 +227,14 @@ const Reset = () => {
     </div>
     <div>
       <el-table :data="account.list" height="500" style="width: 100%">
-        <el-table-column prop="number" label="账号" />
-        <el-table-column prop="password" label="密码" />
-        <el-table-column prop="name" label="姓名" />
+        <el-table-column prop="number" label="账号" min-width="100px" />
+        <el-table-column prop="password" label="密码" min-width="100px" />
+        <el-table-column prop="name" label="姓名" min-width="100px" />
         <el-table-column prop="sex" label="性别" />
         <el-table-column prop="department" label="部门" />
-        <el-table-column prop="jointime" label="入党时间" />
+        <el-table-column prop="jointime" label="入党时间" min-width="110px" />
         <el-table-column prop="grade" label="权限等级" />
-        <el-table-column prop="id" label="操作">
+        <el-table-column prop="id" label="操作" min-width="100px">
           <template #default="scope">
             <el-button
               type="primary"
@@ -254,12 +254,17 @@ const Reset = () => {
       </el-table>
       <el-dialog
         v-model="dialogFormVisible"
+        width="620px"
         :title="type == 'edit' ? '修改用户信息' : '添加账户'"
         @close="hide_edit"
       >
         <el-form :model="accuser">
           <el-form-item label="姓名" :label-width="formLabelWidth">
-            <el-input v-model="accuser.name" autocomplete="off" />
+            <el-input
+              v-model="accuser.name"
+              autocomplete="off"
+              style="width: 220px"
+            />
           </el-form-item>
           <el-form-item
             v-if="type == 'add'"
@@ -271,6 +276,7 @@ const Reset = () => {
               autocomplete="off"
               maxlength="12"
               show-word-limit
+              style="width: 220px"
             />
           </el-form-item>
           <el-form-item label="密码" :label-width="formLabelWidth">
@@ -279,6 +285,7 @@ const Reset = () => {
               autocomplete="off"
               maxlength="12"
               show-word-limit
+              style="width: 220px"
             />
           </el-form-item>
           <el-form-item label="性别" :label-width="formLabelWidth">
@@ -296,6 +303,7 @@ const Reset = () => {
               v-model="accuser.department"
               autocomplete="off"
               :disabled="gra"
+              style="width: 220px"
             />
           </el-form-item>
           <el-form-item label="入党时间" :label-width="formLabelWidth">

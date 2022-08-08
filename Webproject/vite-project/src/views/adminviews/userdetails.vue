@@ -1,16 +1,14 @@
 <script lang="ts" setup>
 import { Search } from "@element-plus/icons-vue";
 import { reactive, ref, onMounted } from "vue";
-import { getuser_list } from "../../api/admin";
+import { getuser_list, getexlist } from "../../api/admin";
 import { getechartspie } from "../../api/user";
-import ActivDe from "../../components/userdetails/ActivDe.vue";
 import Examine from "../../components/userdetails/Examine.vue";
 import HomePie from "../../views/Home/HomePie.vue";
 const getuserlist = () => {
   getuser_list().then((res) => {
     userlist.list = res.data;
     userlist.oldlist = res.data;
-    console.log(userlist.list);
   });
 };
 onMounted(() => {
@@ -26,12 +24,18 @@ const userone = reactive({
   join_num: null,
   result: false,
 });
+const userex = reactive({
+  name: null,
+  id: null,
+  list: [],
+});
 const hide_ex = () => {
   Examineeshow.value = false;
 };
 const show_ex = (data) => {
-  userone.name = data.name;
-  Examineeshow.value = true;
+  userex.name = data.name;
+  userex.id = data.id;
+  get_ex();
 };
 const hide_ac = () => {
   ActivDeshow.value = false;
@@ -53,7 +57,13 @@ const getpie = () => {
     userone.num = res.data.active_num;
     userone.join_num = res.data.join_num;
     userone.result = true;
-    console.log(userone);
+  });
+};
+//用户审核信息列表
+const get_ex = () => {
+  getexlist({ id: userex.id }).then((res) => {
+    userex.list = res.data;
+    Examineeshow.value = true;
   });
 };
 //查询
@@ -78,7 +88,7 @@ const user_search = () => {
       <el-input
         v-model="search"
         class="search"
-        placeholder="请输入要查询的活动名..."
+        placeholder="请输入要查询的姓名..."
         :prefix-icon="Search"
         size="large"
       />
@@ -92,9 +102,9 @@ const user_search = () => {
       <el-table-column prop="name" label="姓名" />
       <el-table-column prop="sex" label="性别" />
       <el-table-column prop="integral" label="积分" sortable />
-      <el-table-column prop="jointime" label="入党时间" sortable />
+      <el-table-column prop="jointime" label="入党时间" sortable min-width="110px" />
       <el-table-column prop="department" label="部门" />
-      <el-table-column prop="id" label="操作" min-width="120px">
+      <el-table-column prop="id" label="操作" min-width="180px">
         <template #default="scope">
           <el-button type="primary" size="small" @click="show_ac(scope.row)"
             >活动信息</el-button
@@ -115,7 +125,8 @@ const user_search = () => {
     ></ActivDe>
     <Examine
       :dialogTableVisible="Examineeshow"
-      :name="userone.name"
+      :name="userex.name"
+      :list="userex.list"
       @hide_ex="hide_ex"
     ></Examine>
   </div>

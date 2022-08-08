@@ -38,6 +38,11 @@ export const admin = [
         meta: { title: '活动管理', icon: 'Flag' }
     },
     {
+        path: 'examine',
+        name: 'examine',
+        meta: { title: '审核管理', icon: 'Reading' }
+    },
+    {
         path: 'userdetails',
         name: 'userdetails',
         meta: { title: '用户详情', icon: 'PieChart' }
@@ -64,6 +69,11 @@ export const supadmin = [
         path: 'userlist',
         name: 'userlist',
         meta: { title: '账号管理', icon: 'User' }
+    },
+    {
+        path: 'examine',
+        name: 'examine',
+        meta: { title: '审核管理', icon: 'Reading' }
     },
     {
         path: 'userdetails',

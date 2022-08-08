@@ -3,6 +3,7 @@ import { reactive, ref } from "vue";
 defineProps<{
   dialogTableVisible?: boolean;
   name?: string;
+  list?: object;
 }>();
 const emit = defineEmits(["hide_ex"]);
 const hide = () => {
@@ -10,29 +11,6 @@ const hide = () => {
   emit("hide_ex");
 };
 const formLabelWidth = "140px";
-
-const gridData = [
-  {
-    date: "2016-05-02",
-    name: "John Smith",
-    address: "No.1518,  Jinshajiang Road, Putuo District",
-  },
-  {
-    date: "2016-05-04",
-    name: "John Smith",
-    address: "No.1518,  Jinshajiang Road, Putuo District",
-  },
-  {
-    date: "2016-05-01",
-    name: "John Smith",
-    address: "No.1518,  Jinshajiang Road, Putuo District",
-  },
-  {
-    date: "2016-05-03",
-    name: "John Smith",
-    address: "No.1518,  Jinshajiang Road, Putuo District",
-  },
-];
 </script>
 <template>
   <el-dialog
@@ -40,10 +18,11 @@ const gridData = [
     :title="`审核信息—(${name})`"
     @close="hide"
   >
-    <el-table :data="gridData">
-      <el-table-column property="date" label="Date" width="150" />
-      <el-table-column property="name" label="Name" width="200" />
-      <el-table-column property="address" label="Address" />
+    <el-table :data="list" empty-text="暂无审核信息">
+      <el-table-column property="ex_name" label="获奖名" />
+      <el-table-column property="ex_li" label="奖项" />
+      <el-table-column property="ex_time" label="获奖时间" />
+      <el-table-column property="ex_result" label="审核状态" />
     </el-table>
   </el-dialog>
 </template>

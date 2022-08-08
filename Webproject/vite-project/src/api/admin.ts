@@ -8,6 +8,15 @@ export function getuser_list() {
     })
 }
 
+//admin获取用户审核信息列表
+export function getexlist(data: number) {
+    return request({
+        url: '/admin/getexlist',
+        method: 'POST',
+        data
+    })
+}
+
 //admin获取用户信息列表
 export function getall_list() {
     return request({
