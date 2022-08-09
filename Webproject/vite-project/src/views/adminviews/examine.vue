@@ -176,7 +176,9 @@ const changed = () => {
             @click="ex_subshow(scope.row)"
             >审核</el-button
           >
-          <el-button v-else type="primary" size="small">已审核</el-button>
+          <el-button v-else type="primary" size="small" disabled
+            >已审核</el-button
+          >
           <!-- <el-button type="danger" size="small" @click="ex_remove"
             >删除</el-button
           > -->

@@ -59,6 +59,15 @@ export function getjoin_activ_user(data: any) {
     })
 }
 
+//admin获取所有活动的所有的活动信息
+export function getactiv_alldep(data: any) {
+    return request({
+        url: '/admin/getactiv_alldep',
+        method: 'POST',
+        data
+    })
+}
+
 //操作
 //发布活动add_activ
 export function add_activ(data: any) {
