@@ -17,6 +17,14 @@ export function getexlist(data: number) {
     })
 }
 
+//admin获取所有用户审核信息列表
+export function getallex() {
+    return request({
+        url: '/admin/getallex',
+        method: 'POST',
+    })
+}
+
 //admin获取用户信息列表
 export function getall_list() {
     return request({
@@ -83,6 +91,15 @@ export function edituser(data: any) {
 export function removeuser(data: any) {
     return request({
         url: '/admin/removeuser',
+        method: 'POST',
+        data
+    })
+}
+
+//审核
+export function exsub(data: any) {
+    return request({
+        url: '/admin/exsub',
         method: 'POST',
         data
     })
