@@ -56,12 +56,12 @@ const join_activ = (id: number, name: string, user_id: number) => {
     </el-card>
     <el-card shadow="hover" header="活动简介：">
       <div>
-        {{ activ.activ_describe }}
+        <span v-html="activ.activ_describe" class="txt"></span>
       </div>
     </el-card>
     <el-card shadow="hover" header="活动详情：">
       <div>
-        {{ activ.form }}
+        <span v-html="activ.form" class="txt"></span>
       </div>
     </el-card>
     <el-button class="hide" icon="CloseBold" circle @click="hide"></el-button>
@@ -100,9 +100,9 @@ const join_activ = (id: number, name: string, user_id: number) => {
     text-align: center;
   }
   .join {
-    position: absolute;
-    right: 10px;
-    bottom: 0px;
+    position: relative;
+    right: -93%;
+    bottom: -10px;
   }
   .timetxt {
     display: flex;
@@ -118,6 +118,9 @@ const join_activ = (id: number, name: string, user_id: number) => {
       padding: 10px;
       color: rgb(123, 103, 103);
     }
+  }
+  .txt {
+    font-size: 10px;
   }
 }
 </style>
