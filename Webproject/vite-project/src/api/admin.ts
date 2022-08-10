@@ -78,6 +78,15 @@ export function add_activ(data: any) {
     })
 }
 
+//编辑活动edit_activ
+export function edit_activ(data: any) {
+    return request({
+        url: '/admin/edit_activ',
+        method: 'POST',
+        data
+    })
+}
+
 //添加账户
 export function adduser_api(data: any) {
     return request({

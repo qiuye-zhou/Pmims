@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted } from "vue";
 import { Delete, Search, Edit } from "@element-plus/icons-vue";
-import { getactiv_alldep, add_activ } from "../../api/admin";
+import { getactiv_alldep, add_activ, edit_activ } from "../../api/admin";
 
 let search = ref("");
 let dialogFormVisible = ref(false);
@@ -12,7 +12,6 @@ const activlist = reactive({
 });
 onMounted(() => {
   getactiv_alldep().then((res) => {
-    console.log(res);
     //深拷贝防止出现odllist与list相同的情况
     activlist.list = JSON.parse(JSON.stringify(res.data));
     activlist.oldlist = JSON.parse(JSON.stringify(res.data));
@@ -51,12 +50,12 @@ const ac_search = () => {
   search.value = "";
 };
 const addactiv_show = () => {
-  console.log("addactiv_show");
   forms.type = "add";
   dialogFormVisible.value = true;
 };
 //编辑活动框显示
 const show_edit = (data) => {
+  forms.activ_id = data.activ_id;
   for (const item of activlist.oldlist) {
     if (item.activ_id == data.activ_id) {
       show_editres(item);
@@ -83,6 +82,7 @@ const forms = reactive({
   activ_time: null,
   activ_describe: null,
   form: null,
+  activ_id: null,
 });
 //发布活动提交
 const ac_subapi = () => {
@@ -94,7 +94,12 @@ const ac_subapi = () => {
     forms.form
   ) {
     //api
-    add_activapi()
+    if (forms.type == "add") {
+      add_activapi();
+    }
+    if (forms.type == "edit") {
+      edit_activapi();
+    }
     forms.activ_name = null;
     forms.activ_integral = null;
     forms.activ_time = null;
@@ -107,30 +112,49 @@ const ac_subapi = () => {
 };
 const add_activapi = () => {
   add_activ({
-      activ_name: forms.activ_name,
-      activ_time: forms.activ_time,
-      activ_integral: forms.activ_integral,
-      activ_describe: forms.activ_describe,
-      form: forms.form,
-    })
-    .then((res) => {
-      if(res.code == 200) {
-        ElMessage({
+    activ_name: forms.activ_name,
+    activ_time: forms.activ_time,
+    activ_integral: forms.activ_integral,
+    activ_describe: forms.activ_describe,
+    form: forms.form,
+  }).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
         message: res.msg,
-         type: 'success',
-         })
-      } else {
-        ElMessage.error(res.msg);
-      }
-    })
-}
+        type: "success",
+      });
+    } else {
+      ElMessage.error(res.msg);
+    }
+  });
+};
+const edit_activapi = () => {
+  console.log(forms.activ_id);
+  edit_activ({
+    activ_id: forms.activ_id,
+    activ_name: forms.activ_name,
+    activ_time: forms.activ_time,
+    activ_integral: forms.activ_integral,
+    activ_describe: forms.activ_describe,
+    form: forms.form,
+  }).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
+        message: res.msg,
+        type: "success",
+      });
+    } else {
+      ElMessage.error(res.msg);
+    }
+  });
+};
 const hide_sub = () => {
   forms.activ_name = null;
   forms.activ_integral = null;
   forms.activ_time = null;
   forms.activ_describe = null;
   forms.form = null;
-  dialogFormVisible.value = false;
+  (forms.activ_id = null), (dialogFormVisible.value = false);
 };
 </script>
 
@@ -205,7 +229,7 @@ const hide_sub = () => {
     <el-dialog
       v-model="dialogFormVisible"
       :title="forms.type == 'add' ? '发布活动' : '编辑活动'"
-      width="520px"
+      width="920px"
       @close="hide_sub"
     >
       <el-form :model="forms">
@@ -237,16 +261,10 @@ const hide_sub = () => {
             type="textarea"
             v-model="forms.activ_describe"
             autocomplete="off"
-            style="width: 360px"
           />
         </el-form-item>
         <el-form-item label="活动详情" :label-width="formLabelWidth">
-          <el-input
-            type="textarea"
-            v-model="forms.form"
-            autocomplete="off"
-            style="width: 360px"
-          />
+          <el-input type="textarea" v-model="forms.form" autocomplete="off" />
         </el-form-item>
       </el-form>
       <template #footer>
