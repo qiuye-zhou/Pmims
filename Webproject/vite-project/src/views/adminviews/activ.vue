@@ -6,7 +6,33 @@ import {
   add_activ,
   edit_activ,
   result_activ,
+  getevlist,
 } from "../../api/admin";
+import ActivList from "../../components/adminactiv/ActivList.vue";
+const showlist = ref(false);
+const evaluatelist = reactive({
+  list: [],
+  name: null,
+});
+const hide_list = () => {
+  evaluatelist.list = [];
+  evaluatelist.name = null;
+  showlist.value = false;
+};
+const show_ex = (data) => {
+  getevlist({
+    activ_id: data.activ_id,
+  }).then((res) => {
+    evaluatelist.list = res.data;
+    for (const item of evaluatelist.list) {
+      if (item.deta_evaluation == "") {
+        item.deta_evaluation = "未评价";
+      }
+    }
+  });
+  evaluatelist.name = data.activ_name;
+  showlist.value = true;
+};
 
 let search = ref("");
 let dialogFormVisible = ref(false);
@@ -100,9 +126,6 @@ const show_acres = (data) => {
     ElMessage.error("活动时间未过");
   }
 };
-const show_ex = () => {
-  console.log("评价信息");
-};
 const forms = reactive({
   type: null,
   activ_name: null,
@@ -157,7 +180,6 @@ const add_activapi = () => {
   });
 };
 const edit_activapi = () => {
-  console.log(forms.activ_id);
   edit_activ({
     activ_id: forms.activ_id,
     activ_name: forms.activ_name,
@@ -311,6 +333,12 @@ const hide_sub = () => {
         </span>
       </template>
     </el-dialog>
+    <ActivList
+      :showlist="showlist"
+      @hide_list="hide_list"
+      :name="evaluatelist.name"
+      :list="evaluatelist.list"
+    />
   </div>
 </template>
 

@@ -96,6 +96,7 @@ const user_search = () => {
     </div>
     <el-table
       :data="userlist.list"
+      height="500"
       :default-sort="{ prop: 'jointime', order: 'descending' }"
       style="width: 100%"
     >

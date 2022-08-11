@@ -91,6 +91,7 @@ const subapi = () => {
       :data="user.list"
       :default-sort="{ prop: 'date', order: 'descending' }"
       empty-text="暂无获奖信息"
+      height="500"
       style="width: 100%"
     >
       <el-table-column prop="aw_name" label="获奖项目名" />

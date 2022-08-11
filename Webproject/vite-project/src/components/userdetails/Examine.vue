@@ -18,7 +18,7 @@ const formLabelWidth = "140px";
     :title="`审核信息—(${name})`"
     @close="hide"
   >
-    <el-table :data="list" empty-text="暂无审核信息">
+    <el-table :data="list" empty-text="暂无审核信息" height="300">
       <el-table-column property="ex_name" label="获奖名" />
       <el-table-column property="ex_li" label="奖项" />
       <el-table-column property="ex_time" label="获奖时间" />

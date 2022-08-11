@@ -98,6 +98,7 @@ onBeforeMount(() => {
       :activ="activlist.activ"
       @hide_activ="hide_activ"
     ></ActivDetails>
+    <el-backtop :right="100" :bottom="100" />
   </div>
 </template>
 

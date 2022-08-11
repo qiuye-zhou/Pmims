@@ -148,6 +148,7 @@ const changed = () => {
     <!-- 列表 -->
     <el-table
       :data="exlist.list"
+      height="500"
       :default-sort="{ prop: 'ex_time', order: 'descending' }"
       style="width: 100%"
     >

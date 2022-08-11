@@ -68,6 +68,15 @@ export function getactiv_alldep(data: any) {
     })
 }
 
+//获取该活动评价信息列表
+export function getevlist(data: any) {
+    return request({
+        url: '/admin/getevlist',
+        method: 'POST',
+        data
+    })
+}
+
 //操作
 //发布活动add_activ
 export function add_activ(data: any) {

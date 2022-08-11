@@ -100,6 +100,7 @@ const ac_search = () => {
       :data="evaluate.list"
       style="width: 100%"
       empty-text="暂无评价信息"
+      height="500"
       :row-class-name="tableRowClassName"
     >
       <el-table-column prop="activ_name" label="活动名称" width="180" />
