@@ -3,7 +3,9 @@ import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
 import { getUsername } from "../../api/useradmin";
 import { getechartspie } from "../../api/user";
+import { getechartspie_useractiv } from "../../api/admin";
 import HomePie from "./HomePie.vue";
+import HomeAdminPie from './HomeAdminPie.vue'
 const value = ref(new Date());
 
 let user = reactive({
@@ -14,6 +16,7 @@ let user = reactive({
 const pie = reactive({
   num: 0,
   join_num: 0,
+  Percent: 0,
   result: false,
 });
 onBeforeMount(() => {
@@ -37,7 +40,14 @@ onBeforeMount(() => {
       pie.num = res.data.active_num;
       pie.join_num = res.data.join_num;
       //让pie图在获取数据之后加载(否则会出现数据为空的情况)
-      pie.result = true
+      pie.result = true;
+    });
+  } else {
+    getechartspie_useractiv().then((res) => {
+      pie.Percent = res.data.pienum;
+      pie.join_num = res.data.users_join_num;
+      pie.num = res.data.activjoin_num;
+      pie.result = true;
     });
   }
 });
@@ -56,7 +66,24 @@ onBeforeMount(() => {
         <el-icon><Finished /></el-icon>{{ pie.join_num }}
       </el-card>
       <div class="pie">
-        <HomePie v-if="pie.result" :num="pie.num" :join_num="pie.join_num"></HomePie>
+        <HomePie
+          v-if="pie.result"
+          :num="pie.num"
+          :join_num="pie.join_num"
+        ></HomePie>
+      </div>
+    </div>
+    <div class="piecon" v-else>
+      <el-card class="box-card num">
+        <p>活动总数</p>
+        <el-icon><Flag /></el-icon>{{ pie.num }}
+      </el-card>
+      <el-card class="box-card join_num">
+        <p>参加人次</p>
+        <el-icon><Finished /></el-icon>{{ pie.join_num }}
+      </el-card>
+      <div class="pie">
+        <HomeAdminPie v-if="pie.result" :num="pie.Percent" :allnum="100"></HomeAdminPie>
       </div>
     </div>
     <el-calendar v-model="value" class="date" />
