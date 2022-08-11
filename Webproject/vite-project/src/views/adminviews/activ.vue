@@ -1,7 +1,12 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted } from "vue";
 import { Delete, Search, Edit } from "@element-plus/icons-vue";
-import { getactiv_alldep, add_activ, edit_activ } from "../../api/admin";
+import {
+  getactiv_alldep,
+  add_activ,
+  edit_activ,
+  result_activ,
+} from "../../api/admin";
 
 let search = ref("");
 let dialogFormVisible = ref(false);
@@ -72,8 +77,31 @@ const show_editres = (data) => {
   forms.activ_describe = data.activ_describe;
   forms.form = data.form;
 };
-const show_acres = () => {
-  console.log("结束活动框显示");
+const show_acres = (data) => {
+  const date = new Date(data.activ_time);
+  const newdate = new Date();
+  if (newdate > date) {
+    result_activ({
+      activ_id: data.activ_id,
+      activ_time: data.activ_time,
+      activ_integral: data.activ_integral,
+    }).then((res) => {
+      if (res.code == 200) {
+        ElMessage({
+          message: res.msg,
+          type: "success",
+        });
+        setTimeout(() => location.reload(), 3000);
+      } else {
+        ElMessage.error(res.msg);
+      }
+    });
+  } else {
+    ElMessage.error("活动时间未过");
+  }
+};
+const show_ex = () => {
+  console.log("评价信息");
 };
 const forms = reactive({
   type: null,
@@ -215,11 +243,20 @@ const hide_sub = () => {
               circle
             />
             <el-button
+              v-if="scope.row.activ_result == '未结束'"
               type="danger"
               class="danger"
               size="small"
-              @click="show_acres"
+              @click="show_acres(scope.row)"
               >结束活动</el-button
+            >
+            <el-button
+              v-else
+              type="warning"
+              class="danger"
+              size="small"
+              @click="show_ex(scope.row)"
+              >评价信息</el-button
             >
           </template>
         </el-table-column>

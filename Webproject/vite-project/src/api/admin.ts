@@ -123,6 +123,15 @@ export function exsub(data: any) {
     })
 }
 
+//结束活动
+export function result_activ(data: any) {
+    return request({
+        url: '/admin/result_activ',
+        method: 'POST',
+        data
+    })
+}result_activ
+
 //echarts数据
 //用户参加活动率(用户参加活动总数量 / 活动总数量*用户数量)——pie
 export function getechartspie_useractiv() {
