@@ -19,6 +19,7 @@ const hide = () => {
     <el-dialog
       v-model="dialogTableVisible"
       :title="`活动信息—(${name})`"
+      width="700px"
       @close="hide"
     >
       <div class="piecon">
