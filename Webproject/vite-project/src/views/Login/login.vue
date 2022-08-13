@@ -59,7 +59,7 @@ const ruleFormRef = ref<FormInstance>();
 
 const rules = reactive({
   number: [
-    { required: true, message: "请输入账号", trigger: "blur" },
+    { required: true, message: "请输入工号", trigger: "blur" },
     { min: 5, message: "账号长度应大于5", trigger: "blur" },
   ],
   password: [
@@ -88,7 +88,7 @@ const loginerr = (msg) => {
       class="login-container"
     >
       <h3 class="login_title">系统登录</h3>
-      <el-form-item label="账户" label-width="50px" prop="number">
+      <el-form-item label="工号" label-width="50px" prop="number">
         <el-input v-model="formLabelAlign.number" autocomplete="off" />
       </el-form-item>
       <el-form-item label="密码" label-width="50px" prop="password">

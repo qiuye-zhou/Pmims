@@ -56,7 +56,7 @@ const ac_search = () => {
   search.value = "";
 };
 const remove = (id) => {
-  ElMessageBox.confirm("你确定要删除此账户?", "警告", {
+  ElMessageBox.confirm("你确定要删除此工号?", "警告", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning",
@@ -121,7 +121,7 @@ const subedit = () => {
         accuser.number.length <= 5 ||
         accuser.password.length <= 5
       ) {
-        ElMessage.error("账号或者密码长度不能小于5！");
+        ElMessage.error("工号或者密码长度不能小于5！");
       } else {
         adduser_api_fun();
         Reset();
@@ -227,7 +227,7 @@ const Reset = () => {
     </div>
     <div>
       <el-table :data="account.list" height="500" style="width: 100%">
-        <el-table-column prop="number" label="账号" min-width="100px" />
+        <el-table-column prop="number" label="工号" min-width="100px" />
         <el-table-column prop="password" label="密码" min-width="100px" />
         <el-table-column prop="name" label="姓名" min-width="100px" />
         <el-table-column prop="sex" label="性别" />
@@ -255,7 +255,7 @@ const Reset = () => {
       <el-dialog
         v-model="dialogFormVisible"
         width="620px"
-        :title="type == 'edit' ? '修改用户信息' : '添加账户'"
+        :title="type == 'edit' ? '修改用户信息' : '添加工号'"
         @close="hide_edit"
       >
         <el-form :model="accuser">
@@ -268,7 +268,7 @@ const Reset = () => {
           </el-form-item>
           <el-form-item
             v-if="type == 'add'"
-            label="账户"
+            label="工号"
             :label-width="formLabelWidth"
           >
             <el-input
