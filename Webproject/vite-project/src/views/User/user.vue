@@ -24,6 +24,7 @@ onMounted(() => {
           userinfo.jointime = data.jointime.slice(0, 10);
           userinfo.name = data.name;
           userinfo.sex = data.sex;
+          userinfo.age = data.age
           userinfo.user = false;
         } else {
           console.error("用户不存在");
@@ -79,6 +80,9 @@ onMounted(() => {
         </el-form-item>
         <el-form-item label="入党时间">
           <el-input v-model="userinfo.jointime" disabled />
+        </el-form-item>
+        <el-form-item label="出生日期">
+          <el-input v-model="userinfo.age" disabled />
         </el-form-item>
         <el-form-item label="积分">
           <el-input v-model="userinfo.integral" disabled />

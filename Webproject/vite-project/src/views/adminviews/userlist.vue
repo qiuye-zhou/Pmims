@@ -24,6 +24,7 @@ const accuser = reactive({
   sex: "",
   department: "",
   jointime: "",
+  age: "",
   grade: null,
 });
 let type = ref("edit");
@@ -94,6 +95,7 @@ const edit = (list) => {
   accuser.sex = list.sex;
   accuser.department = list.department;
   accuser.jointime = list.jointime;
+  accuser.age = list.age;
   accuser.grade = list.grade;
 };
 //edit
@@ -103,7 +105,8 @@ const subedit = () => {
     accuser.sex &&
     accuser.department &&
     accuser.jointime &&
-    accuser.grade
+    accuser.grade &&
+    accuser.age
   ) {
     if (type.value == "edit") {
       if (accuser.password.length <= 5) {
@@ -142,6 +145,7 @@ const adduser_api_fun = () => {
     sex: accuser.sex,
     department: accuser.department,
     jointime: accuser.jointime,
+    age: accuser.age,
   }).then((res) => {
     if (res.code == 200) {
       ElMessage({
@@ -163,6 +167,7 @@ const edituser_api = () => {
     sex: accuser.sex,
     department: accuser.department,
     jointime: accuser.jointime,
+    age: accuser.age,
   }).then((res) => {
     if (res.code == 200) {
       ElMessage({
@@ -202,6 +207,7 @@ const Reset = () => {
   accuser.sex = null;
   accuser.department = null;
   accuser.jointime = null;
+  accuser.age = null;
   accuser.grade = null;
 };
 </script>
@@ -233,6 +239,7 @@ const Reset = () => {
         <el-table-column prop="sex" label="性别" />
         <el-table-column prop="department" label="部门" />
         <el-table-column prop="jointime" label="入党时间" min-width="110px" />
+        <el-table-column prop="age" label="出生日期" min-width="110px" />
         <el-table-column prop="grade" label="权限等级" />
         <el-table-column prop="id" label="操作" min-width="100px">
           <template #default="scope">
@@ -309,6 +316,15 @@ const Reset = () => {
           <el-form-item label="入党时间" :label-width="formLabelWidth">
             <el-date-picker
               v-model="accuser.jointime"
+              type="date"
+              placeholder="选择日期"
+              format="YYYY/MM/DD"
+              value-format="YYYY-MM-DD"
+            />
+          </el-form-item>
+          <el-form-item label="出生日期" :label-width="formLabelWidth">
+            <el-date-picker
+              v-model="accuser.age"
               type="date"
               placeholder="选择日期"
               format="YYYY/MM/DD"

@@ -104,6 +104,7 @@ const user_search = () => {
       <el-table-column prop="sex" label="性别" />
       <el-table-column prop="integral" label="积分" sortable />
       <el-table-column prop="jointime" label="入党时间" sortable min-width="110px" />
+      <el-table-column prop="age" label="出生日期" sortable min-width="110px" />
       <el-table-column prop="department" label="部门" />
       <el-table-column prop="id" label="操作" min-width="180px">
         <template #default="scope">
