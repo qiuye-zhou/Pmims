@@ -3,9 +3,10 @@ import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
 import { getUsername } from "../../api/useradmin";
 import { getechartspie } from "../../api/user";
-import { getechartspie_useractiv } from "../../api/admin";
+import { getechartspie_useractiv,getechartspie_userage } from "../../api/admin";
 import HomePie from "./HomePie.vue";
 import HomeAdminPie from './HomeAdminPie.vue'
+import HomeBar from './HomeBar.vue'
 const value = ref(new Date());
 
 let user = reactive({
@@ -19,6 +20,10 @@ const pie = reactive({
   Percent: 0,
   result: false,
 });
+const barlist = reactive({
+  list: [],
+  result: false,
+})
 onBeforeMount(() => {
   user.grade = storage.get("data").grade;
   user.id = storage.get("data").id;
@@ -50,12 +55,20 @@ onBeforeMount(() => {
       pie.result = true;
     });
   }
+  // 年龄图数据
+  getechartspie_userage().then(res => {
+    barlist.list = res.data
+    barlist.result = true
+    console.log(barlist.list);
+    
+  })
 });
 </script>
 
 <template>
   <div class="con">
     <h3>欢迎{{ `${user.role}—${user.name}` }}登入</h3>
+    <!-- 顶部展示数据 -->
     <div class="piecon" v-if="user.grade === 3">
       <el-card class="box-card num">
         <p>活动总数</p>
@@ -86,13 +99,20 @@ onBeforeMount(() => {
         <HomeAdminPie v-if="pie.result" :num="pie.Percent" :allnum="100"></HomeAdminPie>
       </div>
     </div>
+    <!-- 年龄发布图 -->
+    <div class="agebar" v-if="user.grade !== 3">
+      <HomeBar v-if="barlist.result" :list="barlist.list"></HomeBar>
+    </div>
     <el-calendar v-model="value" class="date" />
+    <el-backtop :right="20" :bottom="100" />
   </div>
 </template>
 
 <style lang="less" scoped>
 .con {
   height: auto;
+  display: flex;
+  flex-direction: column;
   .date {
     box-shadow: 0px 0px 10px 6px rgba(0, 0, 0, 0.2);
     transform: scale(0.8);
@@ -131,6 +151,10 @@ onBeforeMount(() => {
     .join_num {
       color: rgb(102, 165, 116);
     }
+  }
+  .agebar {
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

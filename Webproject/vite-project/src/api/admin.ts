@@ -149,3 +149,11 @@ export function getechartspie_useractiv() {
         method: 'POST',
     })
 }
+
+//echart图年龄数据(不包括管理员)
+export function getechartspie_userage() {
+    return request({
+        url: '/admin/getechartspie_userage',
+        method: 'POST',
+    })
+}
