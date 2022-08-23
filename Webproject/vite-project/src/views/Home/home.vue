@@ -60,7 +60,6 @@ onBeforeMount(() => {
     barlist.list = res.data
     barlist.result = true
     console.log(barlist.list);
-    
   })
 });
 </script>
@@ -99,7 +98,7 @@ onBeforeMount(() => {
         <HomeAdminPie v-if="pie.result" :num="pie.Percent" :allnum="100"></HomeAdminPie>
       </div>
     </div>
-    <!-- 年龄发布图 -->
+    <!-- 年龄分部图 -->
     <div class="agebar" v-if="user.grade !== 3">
       <HomeBar v-if="barlist.result" :list="barlist.list"></HomeBar>
     </div>

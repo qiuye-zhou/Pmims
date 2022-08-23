@@ -56,6 +56,7 @@ declare module '@vue/runtime-core' {
     Examine: typeof import('./src/components/userdetails/Examine.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     List: typeof import('./src/components/adminactiv/List.vue')['default']
+    PrizeUser: typeof import('./src/components/userdetails/PrizeUser.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubPrize: typeof import('./src/components/Prize/SubPrize.vue')['default']

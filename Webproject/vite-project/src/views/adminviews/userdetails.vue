@@ -2,9 +2,10 @@
 import { Search } from "@element-plus/icons-vue";
 import { reactive, ref, onMounted } from "vue";
 import { getuser_list, getexlist } from "../../api/admin";
-import { getechartspie } from "../../api/user";
+import { getechartspie, getawards } from "../../api/user";
 import Examine from "../../components/userdetails/Examine.vue";
 import HomePie from "../../views/Home/HomePie.vue";
+import PrizeUser from "../../components/userdetails/PrizeUser.vue";
 const getuserlist = () => {
   getuser_list().then((res) => {
     userlist.list = res.data;
@@ -17,6 +18,7 @@ onMounted(() => {
 let search = ref("");
 let ActivDeshow = ref(false);
 let Examineeshow = ref(false);
+let Prizeshow = ref(false);
 const userone = reactive({
   name: null,
   id: null,
@@ -24,11 +26,13 @@ const userone = reactive({
   join_num: null,
   result: false,
 });
+//userex 复用 ex、pr
 const userex = reactive({
   name: null,
   id: null,
   list: [],
 });
+//审核信息显示隐藏
 const hide_ex = () => {
   Examineeshow.value = false;
 };
@@ -37,6 +41,16 @@ const show_ex = (data) => {
   userex.id = data.id;
   get_ex();
 };
+//获奖信息显示隐藏
+const hide_pr = () => {
+  Prizeshow.value = false;
+};
+const show_pr = (data) => {
+  userex.name = data.name;
+  userex.id = data.id;
+  get_pr();
+};
+//活动信息显示隐藏
 const hide_ac = () => {
   ActivDeshow.value = false;
   userone.result = false;
@@ -64,6 +78,13 @@ const get_ex = () => {
   getexlist({ id: userex.id }).then((res) => {
     userex.list = res.data;
     Examineeshow.value = true;
+  });
+};
+//用户获奖信息列表
+const get_pr = () => {
+  getawards({ id: userex.id }).then((res) => {
+    userex.list = res.data;
+    Prizeshow.value = true;
   });
 };
 //查询
@@ -103,13 +124,21 @@ const user_search = () => {
       <el-table-column prop="name" label="姓名" />
       <el-table-column prop="sex" label="性别" />
       <el-table-column prop="integral" label="积分" sortable />
-      <el-table-column prop="jointime" label="入党时间" sortable min-width="110px" />
+      <el-table-column
+        prop="jointime"
+        label="入党时间"
+        sortable
+        min-width="110px"
+      />
       <el-table-column prop="age" label="出生日期" sortable min-width="110px" />
       <el-table-column prop="department" label="部门" />
-      <el-table-column prop="id" label="操作" min-width="180px">
+      <el-table-column prop="id" label="操作" min-width="270px">
         <template #default="scope">
           <el-button type="primary" size="small" @click="show_ac(scope.row)"
             >活动信息</el-button
+          >
+          <el-button type="primary" size="small" @click="show_pr(scope.row)"
+            >获奖信息</el-button
           >
           <el-button type="primary" size="small" @click="show_ex(scope.row)"
             >审核信息</el-button
@@ -125,6 +154,12 @@ const user_search = () => {
       :result="userone.result"
       @hide_ac="hide_ac"
     ></ActivDe>
+    <PrizeUser
+      :dialogTableVisible="Prizeshow"
+      :name="userex.name"
+      :list="userex.list"
+      @hide_pr="hide_pr"
+    ></PrizeUser>
     <Examine
       :dialogTableVisible="Examineeshow"
       :name="userex.name"
