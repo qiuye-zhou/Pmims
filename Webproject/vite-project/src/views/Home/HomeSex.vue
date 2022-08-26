@@ -5,7 +5,7 @@ import * as echarts from "echarts";
 import { onMounted, ref } from "vue";
 
 export default {
-  props: ["list"],
+  props: ["man", "gril"],
   setup(props) {
     // 声明chart1，使用ref赋值null
     const chart1 = ref(null);
@@ -19,48 +19,41 @@ export default {
 
       // 绘制图表
       myChart.setOption({
-        title: {
-          text: "用户年龄分布图",
-        //   subtext: "小标题",
-        },
         tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow",
-          },
+          trigger: "item",
         },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true,
+        legend: {
+          top: "5%",
+          left: "center",
         },
-        xAxis: [
-          {
-            type: "category",
-            data: ["18以下", "19-26", "27-38", "39-52", "53-72", "72以上"],
-            axisTick: {
-              alignWithLabel: true,
-            },
-          },
-        ],
-        yAxis: [
-          {
-            type: "value",
-          },
-        ],
         series: [
           {
-            name: "人数",
-            type: "bar",
-            barWidth: "60%",
+            name: "数量",
+            type: "pie",
+            radius: ["40%", "70%"],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: "#fff",
+              borderWidth: 2,
+            },
+            label: {
+              show: false,
+              position: "center",
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: "10",
+                fontWeight: "bold",
+              },
+            },
+            labelLine: {
+              show: false,
+            },
             data: [
-              props.list.a18,
-              props.list.b26,
-              props.list.c38,
-              props.list.d52,
-              props.list.e72,
-              props.list.fmax,
+              { value: props.man, name: "男" },
+              { value: props.gril, name: "女" },
             ],
           },
         ],
@@ -83,5 +76,5 @@ export default {
 </script>
 
 <template>
-  <div ref="chart1" class="char" style="width: 700px; height: 220px"></div>
+  <div ref="chart1" class="char" style="width: 300px; height: 220px"></div>
 </template>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { baseURL } from '../config/request'
-// import { MessageBox, Message } from 'element-ui'
+import { ElMessage } from 'element-plus'
 // import store from '@/store'
 // import { getToken } from '@/utils/auth'
 axios.defaults.withCredentials = true;//允许跨域携带cookie信息
@@ -28,7 +28,12 @@ service.interceptors.request.use(
         // 每次发送请求之前都检测是否存有token,放在请求头发送给服务器
         if (config && config.headers && storage.get('token')) {
             config.headers['token'] = storage.get('token');
-          }
+        }
+        // 每次都带上权限、id
+        if (config && config.headers && storage.get('data') && storage.get('data').id && storage.get('data').grade) {
+            config.headers['id'] = storage.get('data').id;
+            config.headers['grade'] = storage.get('data').grade;
+        }
         return config
     },
     error => {
@@ -52,6 +57,8 @@ service.interceptors.response.use(
      */
     response => {
         const res = response.data
+        console.log(res);
+
 
         // if the custom code is not 20000, it is judged as an error.
         if (res.code !== 200) {
@@ -76,7 +83,16 @@ service.interceptors.response.use(
             // }
             // return Promise.reject(new Error(res.message || 'Error'))
 
-            return res
+            if (res.code == 401) {
+                storage.removeAll()
+                ElMessage({
+                    message: res.msg,
+                    type: 'error',
+                })
+                setTimeout(() => location.reload(),3000)
+            } else {
+                return res
+            }
         } else {
             return res
         }

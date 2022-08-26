@@ -3,10 +3,15 @@ import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
 import { getUsername } from "../../api/useradmin";
 import { getechartspie } from "../../api/user";
-import { getechartspie_useractiv,getechartspie_userage } from "../../api/admin";
+import {
+  getechartspie_useractiv,
+  getechartspie_userage,
+  getsexpie,
+} from "../../api/admin";
 import HomePie from "./HomePie.vue";
-import HomeAdminPie from './HomeAdminPie.vue'
-import HomeBar from './HomeBar.vue'
+import HomeAdminPie from "./HomeAdminPie.vue";
+import HomeBar from "./HomeBar.vue";
+import HomeSex from "./HomeSex.vue";
 const value = ref(new Date());
 
 let user = reactive({
@@ -22,6 +27,11 @@ const pie = reactive({
 });
 const barlist = reactive({
   list: [],
+  result: false,
+});
+const sexdata = reactive({
+  man: null,
+  grol: null,
   result: false,
 })
 onBeforeMount(() => {
@@ -56,10 +66,15 @@ onBeforeMount(() => {
     });
   }
   // 年龄图数据
-  getechartspie_userage().then(res => {
-    barlist.list = res.data
-    barlist.result = true
-    console.log(barlist.list);
+  getechartspie_userage().then((res) => {
+    barlist.list = res.data;
+    barlist.result = true;
+  });
+  //男女比例数据
+  getsexpie().then(res => {
+    sexdata.man = res.man
+    sexdata.gril = res.gril
+    sexdata.result = true
   })
 });
 </script>
@@ -95,12 +110,17 @@ onBeforeMount(() => {
         <el-icon><Finished /></el-icon>{{ pie.join_num }}
       </el-card>
       <div class="pie">
-        <HomeAdminPie v-if="pie.result" :num="pie.Percent" :allnum="100"></HomeAdminPie>
+        <HomeAdminPie
+          v-if="pie.result"
+          :num="pie.Percent"
+          :allnum="100"
+        ></HomeAdminPie>
       </div>
     </div>
     <!-- 年龄分部图 -->
     <div class="agebar" v-if="user.grade !== 3">
       <HomeBar v-if="barlist.result" :list="barlist.list"></HomeBar>
+      <HomeSex v-if="sexdata.result" :man="sexdata.man" :gril="sexdata.gril"></HomeSex>
     </div>
     <el-calendar v-model="value" class="date" />
     <el-backtop :right="20" :bottom="100" />

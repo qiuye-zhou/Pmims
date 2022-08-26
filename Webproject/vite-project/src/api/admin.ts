@@ -157,3 +157,11 @@ export function getechartspie_userage() {
         method: 'POST',
     })
 }
+
+//echart图男女比例数据(不包括管理员)
+export function getsexpie() {
+    return request({
+        url: '/admin/getsexpie',
+        method: 'POST',
+    })
+}
