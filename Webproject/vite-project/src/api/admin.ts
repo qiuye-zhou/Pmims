@@ -165,3 +165,12 @@ export function getsexpie() {
         method: 'POST',
     })
 }
+
+//echart图活动分布数据
+export function getactivbar(data: any) {
+    return request({
+        url: '/admin/getactivbar',
+        method: 'POST',
+        data,
+    })
+}

@@ -7,11 +7,13 @@ import {
   getechartspie_useractiv,
   getechartspie_userage,
   getsexpie,
+  getactivbar,
 } from "../../api/admin";
 import HomePie from "./HomePie.vue";
 import HomeAdminPie from "./HomeAdminPie.vue";
 import HomeBar from "./HomeBar.vue";
 import HomeSex from "./HomeSex.vue";
+import HomeActiv from "./HomeActiv.vue";
 const value = ref(new Date());
 
 let user = reactive({
@@ -33,7 +35,12 @@ const sexdata = reactive({
   man: null,
   grol: null,
   result: false,
-})
+});
+const activbar = reactive({
+  year: new Date(),
+  list: null,
+  result: false,
+});
 onBeforeMount(() => {
   user.grade = storage.get("data").grade;
   user.id = storage.get("data").id;
@@ -71,12 +78,23 @@ onBeforeMount(() => {
     barlist.result = true;
   });
   //男女比例数据
-  getsexpie().then(res => {
-    sexdata.man = res.man
-    sexdata.gril = res.gril
-    sexdata.result = true
-  })
+  getsexpie().then((res) => {
+    sexdata.man = res.man;
+    sexdata.gril = res.gril;
+    sexdata.result = true;
+  });
+  getactivbar_data(activbar.year.getFullYear())
 });
+const yearchange = () => {
+  getactivbar_data(activbar.year.getFullYear())
+}
+const getactivbar_data = (year) => {
+  activbar.result = false
+  getactivbar({year: year}).then(res => {
+    activbar.list = res.data
+    activbar.result = true
+  })
+}
 </script>
 
 <template>
@@ -117,10 +135,27 @@ onBeforeMount(() => {
         ></HomeAdminPie>
       </div>
     </div>
-    <!-- 年龄分部图 -->
+    <!-- 年龄分部图、性别比例图 -->
     <div class="agebar" v-if="user.grade !== 3">
       <HomeBar v-if="barlist.result" :list="barlist.list"></HomeBar>
-      <HomeSex v-if="sexdata.result" :man="sexdata.man" :gril="sexdata.gril"></HomeSex>
+      <HomeSex
+        v-if="sexdata.result"
+        :man="sexdata.man"
+        :gril="sexdata.gril"
+      ></HomeSex>
+    </div>
+    <!-- 活动分布图 -->
+    <div class="activbar year" v-if="user.grade !== 3">
+      <h4>查看年份</h4>
+      <el-date-picker
+        v-model="activbar.year"
+        type="year"
+        @change="yearchange"
+        placeholder="请选择查看的年份"
+      />
+    </div>
+    <div class="activbar" v-if="user.grade !== 3">
+      <HomeActiv v-if="activbar.result" :list="activbar.list" :year="activbar.year.getFullYear()"></HomeActiv>
     </div>
     <el-calendar v-model="value" class="date" />
     <el-backtop :right="20" :bottom="100" />
@@ -174,6 +209,18 @@ onBeforeMount(() => {
   .agebar {
     display: flex;
     justify-content: center;
+  }
+  .activbar {
+    display: flex;
+    justify-content: center;
+  }
+  .year {
+    margin-top: 20px;
+    h4 {
+      margin: 0px;
+      line-height: 32px;
+      margin-right: 10px;
+    }
   }
 }
 </style>
