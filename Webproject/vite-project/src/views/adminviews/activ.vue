@@ -7,8 +7,10 @@ import {
   edit_activ,
   result_activ,
   getevlist,
+  getjoinac_list,
 } from "../../api/admin";
 import ActivList from "../../components/adminactiv/ActivList.vue";
+import ActivUserList from "../../components/adminactiv/ActivUserList.vue";
 const showlist = ref(false);
 const evaluatelist = reactive({
   list: [],
@@ -177,7 +179,7 @@ const formsclear = () => {
   forms.form = null;
   forms.file = null;
   dialogFormVisible.value = false;
-  setTimeout(() => location.reload() , 3000)
+  setTimeout(() => location.reload(), 3000);
 };
 const add_activapi = () => {
   add_activ({
@@ -225,6 +227,26 @@ const hide_sub = () => {
   forms.form = null;
   (forms.activ_id = null), (dialogFormVisible.value = false);
 };
+const acuserlist = reactive({
+  list: null,
+  name: null,
+  result: false,
+  fileres: null,
+});
+const show_userlist = (data) => {
+  //api
+  getjoinac_list({ activ_id: data.activ_id }).then((res) => {
+    acuserlist.list = res.data;
+  });
+  acuserlist.fileres = data.file == "否" ? false : true;
+  acuserlist.name = data.activ_name;
+  acuserlist.result = true;
+};
+const hide_userlist = () => {
+  acuserlist.list = [];
+  acuserlist.name = null;
+  acuserlist.result = false;
+};
 </script>
 
 <template>
@@ -254,7 +276,7 @@ const hide_sub = () => {
         :default-sort="{ prop: 'ex_time', order: 'descending' }"
       >
         <el-table-column prop="activ_id" label="Activ_ID" />
-        <el-table-column prop="activ_name" label="活动名" min-width="100px" />
+        <el-table-column prop="activ_name" label="活动名" min-width="80px" />
         <el-table-column prop="activ_integral" label="活动积分" />
         <el-table-column
           prop="activ_time"
@@ -273,9 +295,9 @@ const hide_sub = () => {
           label="活动简介"
           min-width="170px"
         />
-        <el-table-column prop="form" label="活动详情" min-width="180px" />
+        <el-table-column prop="form" label="活动详情" min-width="160px" />
         <el-table-column prop="file" label="提交文件" />
-        <el-table-column prop="activ_id" label="操作" min-width="140px">
+        <el-table-column prop="activ_id" label="操作" min-width="190px">
           <template #default="scope">
             <el-button
               type="primary"
@@ -298,7 +320,14 @@ const hide_sub = () => {
               class="danger"
               size="small"
               @click="show_ex(scope.row)"
-              >评价信息</el-button
+              >评价Info</el-button
+            >
+            <el-button
+              type="info"
+              class="danger"
+              size="small"
+              @click="show_userlist(scope.row)"
+              >参与Info</el-button
             >
           </template>
         </el-table-column>
@@ -368,6 +397,13 @@ const hide_sub = () => {
       @hide_list="hide_list"
       :name="evaluatelist.name"
       :list="evaluatelist.list"
+    />
+    <ActivUserList
+      :showlist="acuserlist.result"
+      @hide_userlist="hide_userlist"
+      :name="acuserlist.name"
+      :list="acuserlist.list"
+      :fileres="acuserlist.fileres"
     />
   </div>
 </template>

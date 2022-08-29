@@ -88,6 +88,7 @@ onBeforeMount(() => {
         :time="item.activ_time"
         :result="item.activ_result"
         :userjoin="item.userjoin"
+        :file="item.file"
         @show_activ="show_activ"
       ></ActivTable>
     </div>

@@ -14,29 +14,44 @@ const emit = defineEmits(["hide_activ"]);
 const hide = () => {
   emit("hide_activ");
 };
-const join_activ = (id: number, name: string, user_id: number) => {
-  console.log(user_id + "参加活动" + id);
-  ElMessageBox.confirm(`你确认要参加—${name}?`, "确认", {
-    confirmButtonText: "确定参加",
-    cancelButtonText: "取消",
-    type: "warning",
-  })
-    .then(() => {
-      joinbtn.res = true;
-      join_active({ id: user_id, activ_id: id }).then((res) => {
+const join_activ = (
+  id: number,
+  name: string,
+  user_id: number,
+  file: number
+) => {
+  if (file == 0) {
+    ElMessageBox.confirm(`你确认要参加—${name}?`, "确认", {
+      confirmButtonText: "确定参加",
+      cancelButtonText: "取消",
+      type: "warning",
+    })
+      .then(() => {
+        joinbtn.res = true;
+        join_active({ id: user_id, activ_id: id }).then((res) => {
+          ElMessage({
+            type: "success",
+            message: res.msg,
+          });
+        });
+        setTimeout(() => location.reload(), 3000);
+      })
+      .catch(() => {
         ElMessage({
-          type: "success",
-          message: res.msg,
+          type: "info",
+          message: "取消",
         });
       });
-      setTimeout(() => location.reload(), 3000);
-    })
-    .catch(() => {
-      ElMessage({
-        type: "info",
-        message: "取消",
-      });
-    });
+  } else {
+    //需要提交文件的参加活动
+    join_file.showlist = true;
+  }
+};
+const join_file = reactive({
+  showlist: false,
+});
+const hidefile = () => {
+  join_file.showlist = false;
 };
 </script>
 
@@ -71,12 +86,21 @@ const join_activ = (id: number, name: string, user_id: number) => {
       type="success"
       round
       :disabled="joinbtn.res"
-      @click="join_activ(id, activ.activ_name, storage.get('data').id)"
+      @click="
+        join_activ(id, activ.activ_name, storage.get('data').id, activ.file)
+      "
       >参加活动</el-button
     >
     <el-button class="join" v-if="userjoin" type="warning" round disabled
       >已参加</el-button
     >
+    <el-dialog
+      v-model="join_file.showlist"
+      :title="`用户参加活动`"
+      @close="hidefile"
+    >
+      cc
+    </el-dialog>
   </div>
 </template>
 
