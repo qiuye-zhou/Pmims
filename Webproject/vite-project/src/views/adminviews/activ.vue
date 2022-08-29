@@ -36,7 +36,7 @@ const show_ex = (data) => {
 
 let search = ref("");
 let dialogFormVisible = ref(false);
-const formLabelWidth = ref("120px");
+const formLabelWidth = ref("130px");
 const activlist = reactive({
   list: [],
   oldlist: [],
@@ -49,8 +49,14 @@ onMounted(() => {
     formatlist();
   });
 });
+//数据处理
 const formatlist = () => {
   for (const item of activlist.list) {
+    if (item.file == 0) {
+      item.file = "否";
+    } else {
+      item.file = "是";
+    }
     if (item.activ_result == 1) {
       item.activ_result = "已结束";
     } else {
@@ -134,6 +140,7 @@ const forms = reactive({
   activ_describe: null,
   form: null,
   activ_id: null,
+  file: null,
 });
 //发布活动提交
 const ac_subapi = () => {
@@ -146,20 +153,31 @@ const ac_subapi = () => {
   ) {
     //api
     if (forms.type == "add") {
-      add_activapi();
+      if (forms.file) {
+        add_activapi();
+        formsclear();
+      } else {
+        ElMessage.error("请填完所有选项");
+      }
     }
     if (forms.type == "edit") {
       edit_activapi();
+      formsclear();
     }
-    forms.activ_name = null;
-    forms.activ_integral = null;
-    forms.activ_time = null;
-    forms.activ_describe = null;
-    forms.form = null;
-    dialogFormVisible.value = false;
   } else {
     ElMessage.error("请填完所有选项");
   }
+};
+//提交清除关闭
+const formsclear = () => {
+  forms.activ_name = null;
+  forms.activ_integral = null;
+  forms.activ_time = null;
+  forms.activ_describe = null;
+  forms.form = null;
+  forms.file = null;
+  dialogFormVisible.value = false;
+  setTimeout(() => location.reload() , 3000)
 };
 const add_activapi = () => {
   add_activ({
@@ -168,6 +186,7 @@ const add_activapi = () => {
     activ_integral: forms.activ_integral,
     activ_describe: forms.activ_describe,
     form: forms.form,
+    file: forms.file,
   }).then((res) => {
     if (res.code == 200) {
       ElMessage({
@@ -255,6 +274,7 @@ const hide_sub = () => {
           min-width="170px"
         />
         <el-table-column prop="form" label="活动详情" min-width="180px" />
+        <el-table-column prop="file" label="提交文件" />
         <el-table-column prop="activ_id" label="操作" min-width="140px">
           <template #default="scope">
             <el-button
@@ -324,6 +344,16 @@ const hide_sub = () => {
         </el-form-item>
         <el-form-item label="活动详情" :label-width="formLabelWidth">
           <el-input type="textarea" v-model="forms.form" autocomplete="off" />
+        </el-form-item>
+        <el-form-item
+          v-if="forms.type == 'add'"
+          label="是否需要提交文件"
+          :label-width="formLabelWidth"
+        >
+          <el-select v-model="forms.file" placeholder="请选择是否需要提交文件">
+            <el-option label="否" value="0" />
+            <el-option label="是" value="1" />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
