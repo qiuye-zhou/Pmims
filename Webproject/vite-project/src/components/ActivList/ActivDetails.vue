@@ -2,6 +2,8 @@
 import { ref, reactive } from "vue";
 import { join_active } from "../../api/user";
 import storage from "../../localstorage/localstorage";
+import type { UploadProps, UploadUserFile } from "element-plus";
+import { uploadAc } from "../../api/file";
 defineProps<{
   id?: number;
   userjoin?: boolean;
@@ -53,6 +55,43 @@ const join_file = reactive({
 const hidefile = () => {
   join_file.showlist = false;
 };
+const uploadRef = ref<UploadInstance>();
+const fileList = ref<UploadUserFile[]>([]);
+const handleExceed: UploadProps["onExceed"] = (files, uploadFiles) => {
+  ElMessage.warning(`只能上传一个文件`);
+};
+const submitUpload = () => {
+  if (fileList.value.length == 0) {
+    ElMessage.warning(`请选择要上传的文件`);
+  }
+  uploadRef.value!.submit();
+};
+const httpRequest = (params) => {
+  const formDate = new FormData();
+  formDate.append("file", fileList.value[0].raw);
+  formDate.append("id", storage.get("data").id);
+  formDate.append("activ_id", parseInt(params.action));
+  uploadAc(formDate)
+    .then((res) => {
+      if (res.code == 200) {
+        joinbtn.res = true;
+        join_active({
+          id: storage.get("data").id,
+          activ_id: parseInt(params.action),
+        }).then((res) => {
+          ElMessage({
+            type: "success",
+            message: res.msg,
+          });
+        });
+        hidefile();
+        setTimeout(() => location.reload(), 3000);
+      }
+    })
+    .catch((err) => {
+      ElMessage.error("出现错误");
+    });
+};
 </script>
 
 <template>
@@ -99,7 +138,28 @@ const hidefile = () => {
       :title="`用户参加活动`"
       @close="hidefile"
     >
-      cc
+      <el-upload
+        v-model:file-list="fileList"
+        ref="uploadRef"
+        class="upload-demo"
+        :action="`${id}`"
+        :http-request="httpRequest"
+        :limit="1"
+        :on-exceed="handleExceed"
+        :auto-upload="false"
+        :multiple="false"
+      >
+        <template #trigger>
+          <el-button type="primary">选择文件</el-button>
+        </template>
+
+        <template #tip>
+          <div class="el-upload__tip">请选择上传word、excle文件</div>
+        </template>
+      </el-upload>
+      <el-button class="rig" type="success" @click="submitUpload">
+        确认
+      </el-button>
     </el-dialog>
   </div>
 </template>
@@ -145,6 +205,10 @@ const hidefile = () => {
   }
   .txt {
     font-size: 10px;
+  }
+  .rig {
+    margin-left: 100%;
+    transform: translateX(-60px);
   }
 }
 </style>
