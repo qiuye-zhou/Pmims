@@ -16,10 +16,7 @@ const formLabelWidth = "140px";
 const download = (data) => {
   const id = data.id;
   const acid = data.activ_id;
-  //   console.log(baseURL);
-  // window.open('http://localhost:3100/' + "download"+`?name=123`, "_self");
-  window.open(baseURL + "/download" + `?name=ac${acid}user${id}`, "_self");
-  //   console.log("下载", id, acid);
+  window.open(baseURL + "/file/download" + `?name=ac${acid}user${id}`, "_self");
 };
 </script>
 <template>

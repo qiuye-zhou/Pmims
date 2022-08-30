@@ -297,7 +297,7 @@ const hide_userlist = () => {
         />
         <el-table-column prop="form" label="活动详情" min-width="160px" />
         <el-table-column prop="file" label="提交文件" />
-        <el-table-column prop="activ_id" label="操作" min-width="190px">
+        <el-table-column prop="activ_id" label="操作" min-width="200px">
           <template #default="scope">
             <el-button
               type="primary"
