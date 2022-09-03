@@ -6,19 +6,21 @@ Pmims(Vue3,vite,pinia,VueRouter)
 ```
 Vue3,pinia,VueRouter
 
-Element-Plus
+less
+
+Element-Plus,echarts
 ```
 
 
 
-请求服务端地址
+请求服务端地址(修改位置)
 
 ```
 src/config/request.ts
 export const baseURL = 'http://localhost:3300'//服务端请求地址
 ```
 
-运行
+生产环境运行
 
 ```
 npm run dev
