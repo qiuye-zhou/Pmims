@@ -3,7 +3,7 @@
 ```
 Vue3,pinia,VueRouter
 
-Element-Plus
+Element-Plus、Echart、Less
 ```
 
 
