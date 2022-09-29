@@ -86,6 +86,10 @@ const httpRequest = (params) => {
         });
         hidefile();
         setTimeout(() => location.reload(), 3000);
+      } else {
+        if(res.code == 406) {
+          ElMessage.error(res.msg);
+        }
       }
     })
     .catch((err) => {
