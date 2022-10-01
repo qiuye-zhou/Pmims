@@ -137,49 +137,6 @@ const changed = () => {
     branch_result.value = false;
   }
 };
-//提交审核提交文件逻辑
-const uploadRef = ref<UploadInstance>();
-const fileList = ref<UploadUserFile[]>([]);
-const handleExceed: UploadProps["onExceed"] = (files, uploadFiles) => {
-  ElMessage.warning(`只能上传一个文件`);
-};
-const submitUpload = () => {
-  if (fileList.value.length == 0) {
-    ElMessage.warning(`请选择要上传的文件`);
-  }
-  uploadRef.value!.submit();
-};
-const httpRequest = (params) => {
-  const formDate = new FormData();
-  formDate.append("file", fileList.value[0].raw);
-  formDate.append("id", storage.get("data").id);
-  formDate.append("activ_id", parseInt(params.action));
-  uploadAc(formDate)
-    .then((res) => {
-      if (res.code == 200) {
-        joinbtn.res = true;
-        join_active({
-          id: storage.get("data").id,
-          activ_id: parseInt(params.action),
-        }).then((res) => {
-          ElMessage({
-            type: "success",
-            message: res.msg,
-          });
-        });
-        hide();
-        setTimeout(() => location.reload(), 3000);
-      } else {
-        if(res.code == 406) {
-          ElMessage.error(res.msg);
-        }
-      }
-    })
-    .catch((err) => {
-      ElMessage.error("出现错误");
-    });
-};
-//——————————
 //附件下载逻辑
 const download = (data) => {
   const id = data;
