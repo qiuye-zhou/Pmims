@@ -3,6 +3,7 @@ import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
 import { getawards, subprize } from "../../api/user";
 import { Search } from "@element-plus/icons-vue";
+import { uploadEx } from '../../api/file'
 
 const user = reactive({
   list: [],
@@ -62,16 +63,52 @@ const subapi = () => {
     ex_time: userex.time,
   }).then((res) => {
     if (res.code == 200) {
-      ElMessage({
-        message: res.msg,
-        type: "success",
-      });
+      formex_id.ex_id = res.ex_id[0].ex_id
+      submitUpload()
     } else {
       ElMessage.error(res.msg);
     }
   });
   dialogFormVisible.value = false;
 };
+//提交审核提交文件逻辑
+const formex_id = reactive({
+  ex_id: null
+})
+const uploadRef = ref<UploadInstance>();
+const fileList = ref<UploadUserFile[]>([]);
+const handleExceed: UploadProps["onExceed"] = (files, uploadFiles) => {
+  ElMessage.warning(`只能上传一个文件`);
+};
+const submitUpload = () => {
+  if (fileList.value.length == 0) {
+    ElMessage.warning(`请选择要上传的文件`);
+  }
+  uploadRef.value!.submit();
+};
+const httpRequest = (params) => {
+  const formDate = new FormData();
+  formDate.append("file", fileList.value[0].raw);
+  formDate.append("ex_id", formex_id.ex_id);
+  uploadEx(formDate)
+    .then((res) => {
+      if (res.code == 200) {
+        // subapi();
+        ElMessage({
+        message: res.msg,
+        type: "success",
+      });
+      } else {
+        if(res.code == 406) {
+          ElMessage.error(res.msg);
+        }
+      }
+    })
+    .catch((err) => {
+      ElMessage.error("出现错误");
+    });
+};
+//——————————
 </script>
 
 <template>
@@ -129,6 +166,25 @@ const subapi = () => {
           />
         </el-form-item>
       </el-form>
+      <el-upload
+        v-model:file-list="fileList"
+        ref="uploadRef"
+        class="upload-demo"
+        :action="`id`"
+        :http-request="httpRequest"
+        :limit="1"
+        :on-exceed="handleExceed"
+        :auto-upload="false"
+        :multiple="false"
+      >
+        <template #trigger>
+          <el-button type="primary">选择文件</el-button>
+        </template>
+
+        <template #tip>
+          <div class="el-upload__tip">请选择上传word、excle文件</div>
+        </template>
+      </el-upload>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="hide_sub">取消</el-button>
@@ -155,5 +211,8 @@ const subapi = () => {
       margin-right: 16px;
     }
   }
+}
+.upload-demo {
+  padding: 0px 60px;
 }
 </style>

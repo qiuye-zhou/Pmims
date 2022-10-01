@@ -2,6 +2,7 @@
 import { Search } from "@element-plus/icons-vue";
 import { reactive, ref, onMounted } from "vue";
 import { getallex, exsub } from "../../api/admin";
+import { baseURL } from "../../config/request";
 onMounted(() => {
   get_ex();
 });
@@ -38,6 +39,7 @@ const ex_subshow = (data) => {
   form.ex_name = data.ex_name;
   form.ex_li = data.ex_li;
   form.ex_time = data.ex_time;
+  form.ex_id = data.ex_id
   dialogFormVisible.value = true;
 };
 //暂时不需要删除审核信息
@@ -75,9 +77,11 @@ const form = reactive({
   ex_name: null,
   ex_li: null,
   ex_time: null,
+  ex_id: null,
   branch: null,
   ex_result: null,
 });
+const exdis = ref(false)
 //提交审核
 const ex_subapi = () => {
   if (form.ex_result) {
@@ -104,6 +108,7 @@ const exsub_api = () => {
     ex_name: form.ex_name,
     ex_result: form.ex_result,
     ex_time: form.ex_time,
+    ex_id: form.ex_id,
     ex_li: form.ex_li,
     branch: form.branch,
   }).then((res) => {
@@ -116,6 +121,8 @@ const exsub_api = () => {
       ElMessage.error(res.msg);
     }
   });
+  exdis.value = true
+  setTimeout(() => {location.reload()},3000)
 };
 const hide_sub = () => {
   form.ex_result = null;
@@ -130,6 +137,55 @@ const changed = () => {
     branch_result.value = false;
   }
 };
+//提交审核提交文件逻辑
+const uploadRef = ref<UploadInstance>();
+const fileList = ref<UploadUserFile[]>([]);
+const handleExceed: UploadProps["onExceed"] = (files, uploadFiles) => {
+  ElMessage.warning(`只能上传一个文件`);
+};
+const submitUpload = () => {
+  if (fileList.value.length == 0) {
+    ElMessage.warning(`请选择要上传的文件`);
+  }
+  uploadRef.value!.submit();
+};
+const httpRequest = (params) => {
+  const formDate = new FormData();
+  formDate.append("file", fileList.value[0].raw);
+  formDate.append("id", storage.get("data").id);
+  formDate.append("activ_id", parseInt(params.action));
+  uploadAc(formDate)
+    .then((res) => {
+      if (res.code == 200) {
+        joinbtn.res = true;
+        join_active({
+          id: storage.get("data").id,
+          activ_id: parseInt(params.action),
+        }).then((res) => {
+          ElMessage({
+            type: "success",
+            message: res.msg,
+          });
+        });
+        hide();
+        setTimeout(() => location.reload(), 3000);
+      } else {
+        if(res.code == 406) {
+          ElMessage.error(res.msg);
+        }
+      }
+    })
+    .catch((err) => {
+      ElMessage.error("出现错误");
+    });
+};
+//——————————
+//附件下载逻辑
+const download = (data) => {
+  const id = data;
+  window.open(baseURL + "/file/downloadex" + `?name=ex${id}`, "_self");
+};
+//——————————
 </script>
 
 <template>
@@ -149,11 +205,12 @@ const changed = () => {
     <el-table
       :data="exlist.list"
       height="500"
-      :default-sort="{ prop: 'ex_time', order: 'descending' }"
+      :default-sort="{ prop: 'ex_result', order: 'ascending' }"
       style="width: 100%"
     >
       <el-table-column prop="name" label="姓名" />
       <el-table-column prop="id" label="ID" />
+      <el-table-column prop="ex_id" label="EX_ID" />
       <el-table-column prop="ex_name" label="获奖名" min-width="110px" />
       <el-table-column prop="ex_li" label="奖项" />
       <el-table-column
@@ -174,6 +231,7 @@ const changed = () => {
             v-if="scope.row.ex_result === '待审核'"
             type="primary"
             size="small"
+            :disabled="exdis"
             @click="ex_subshow(scope.row)"
             >审核</el-button
           >
@@ -232,6 +290,13 @@ const changed = () => {
           </el-select>
         </el-form-item>
       </el-form>
+      <el-button
+            type="success"
+            class="danger"
+            size="small"
+            @click="download(form.ex_id)"
+            >附件下载</el-button
+          >
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -257,6 +322,9 @@ const changed = () => {
       margin-right: 16px;
     }
   }
+}
+.danger {
+  margin-left: 90px;
 }
 </style>
 

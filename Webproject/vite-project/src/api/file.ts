@@ -8,3 +8,12 @@ export function uploadAc(data: any) {
         data
     })
 }
+
+//用户提交审核提交文件
+export function uploadEx(data: any) {
+    return request({
+        url: '/file/uploadex',
+        method: 'POST',
+        data
+    }) 
+}
