@@ -138,9 +138,8 @@ const changed = () => {
   }
 };
 //附件下载逻辑
-const download = (data) => {
-  const id = data;
-  window.open(baseURL + "/file/downloadex" + `?name=ex${id}`, "_self");
+const download = (exid,name) => {
+  window.open(baseURL + "/file/downloadex" + `?name=ex${exid}&username=${name}`, "_self");
 };
 //——————————
 </script>
@@ -251,7 +250,7 @@ const download = (data) => {
             type="success"
             class="danger"
             size="small"
-            @click="download(form.ex_id)"
+            @click="download(form.ex_id,form.name)"
             >附件下载</el-button
           >
       <template #footer>

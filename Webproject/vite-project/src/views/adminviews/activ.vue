@@ -237,6 +237,9 @@ const show_userlist = (data) => {
   //api
   getjoinac_list({ activ_id: data.activ_id }).then((res) => {
     acuserlist.list = res.data;
+    acuserlist.list.forEach(e => {
+      e.activ_name = data.activ_name
+    });
   });
   acuserlist.fileres = data.file == "否" ? false : true;
   acuserlist.name = data.activ_name;

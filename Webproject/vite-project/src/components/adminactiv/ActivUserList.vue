@@ -14,10 +14,11 @@ const hide = () => {
 };
 const formLabelWidth = "140px";
 const download = (data) => {
+  const activ_name = data.activ_name
   const name = data.name
   const id = data.id;
   const acid = data.activ_id;
-  window.open(baseURL + "/file/download" + `?name=ac${acid}user${id}&filename=${name}`, "_self");
+  window.open(baseURL + "/file/download" + `?name=ac${acid}user${id}&filename=${name}&activname=${activ_name}&acid=${acid}`, "_self");
 };
 </script>
 <template>
