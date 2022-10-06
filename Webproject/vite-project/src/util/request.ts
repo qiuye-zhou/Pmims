@@ -80,6 +80,7 @@ service.interceptors.response.use(
             // }
             // return Promise.reject(new Error(res.message || 'Error'))
 
+            //token失效或者权限认证失败清除本地storage
             if (res.code == 401) {
                 storage.removeAll()
                 ElMessage({
