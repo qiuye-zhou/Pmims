@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     ActivDe: typeof import('./src/components/userdetails/ActivDe.vue')['default']
     ActivDetails: typeof import('./src/components/ActivList/ActivDetails.vue')['default']
     ActivList: typeof import('./src/components/ActivList/index.vue')['default']
+    ActivResult: typeof import('./src/components/adminactiv/ActivResult.vue')['default']
     ActivTable: typeof import('./src/components/ActivTable/index.vue')['default']
     ActivUserList: typeof import('./src/components/adminactiv/ActivUserList.vue')['default']
     Aside: typeof import('./src/components/Aside/aside.vue')['default']

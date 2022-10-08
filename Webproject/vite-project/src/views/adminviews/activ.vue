@@ -11,6 +11,7 @@ import {
 } from "../../api/admin";
 import ActivList from "../../components/adminactiv/ActivList.vue";
 import ActivUserList from "../../components/adminactiv/ActivUserList.vue";
+import ActivResult from '../../components/adminactiv/ActivResult.vue'
 const showlist = ref(false);
 const evaluatelist = reactive({
   list: [],
@@ -111,29 +112,73 @@ const show_editres = (data) => {
   forms.activ_describe = data.activ_describe;
   forms.form = data.form;
 };
+//结束活动部分逻辑
+const activ_result_show = reactive({
+  result: false,
+  ac_name: null,
+  list: null,
+  file: false,
+  ac_inte: null,
+})
+const res_ac_btn = ref(false)
 const show_acres = (data) => {
   const date = new Date(data.activ_time);
   const newdate = new Date();
   if (newdate > date) {
-    result_activ({
-      activ_id: data.activ_id,
-      activ_time: data.activ_time,
-      activ_integral: data.activ_integral,
-    }).then((res) => {
-      if (res.code == 200) {
-        ElMessage({
-          message: res.msg,
-          type: "success",
-        });
-        setTimeout(() => location.reload(), 3000);
-      } else {
-        ElMessage.error(res.msg);
-      }
+    //结束活动逻辑
+    activ_result_show.result = true
+    activ_result_show.file = data.file == '否' ? false : true
+    activ_result_show.ac_name = data.activ_name
+    activ_result_show.ac_inte = data.activ_integral
+    activ_result_show.ac_time = data.activ_time
+    getjoinac_list({ activ_id: data.activ_id }).then((res) => {
+      activ_result_show.list = res.data;
+      activ_result_show.list.forEach(e => {
+        e.add_inte = 0
+        if(!activ_result_show.file) e.add_inte = '未参加'
+      });
     });
   } else {
     ElMessage.error("活动时间未过");
   }
 };
+const hide_activ_result = () => {
+  activ_result_show.result = false
+}
+const sub_ac_res = () => {
+  res_ac_btn.value = true
+  activ_result_show.list.forEach(e => {
+    if(!activ_result_show.file) e.add_inte = e.add_inte == '未参加' ? 0 : activ_result_show.ac_inte
+  })
+  //提交活动结束所需要的数据列表
+  let sub_list = []
+  activ_result_show.list.forEach((e,i) => {
+    let obj_user = {
+      id : e.id,
+      activ_id : e.activ_id,
+      add_inte : e.add_inte
+    }
+    sub_list.push(obj_user)
+  })
+  result_activ({
+    activ_id: sub_list[0].activ_id,
+    activ_time: activ_result_show.ac_time,
+    list: sub_list,
+  }).then((res) => {
+    if (res.code == 200) {
+      ElMessage({
+        message: res.msg,
+        type: "success",
+      });
+    } else {
+      ElMessage.error(res.msg);
+    }
+    setTimeout(() => location.reload(), 3000);
+  }).catch((err) => {
+    setTimeout(() => location.reload(), 3000);
+  });
+}
+//————
 const forms = reactive({
   type: null,
   activ_name: null,
@@ -311,6 +356,7 @@ const hide_userlist = () => {
             />
             <el-button
               v-if="scope.row.activ_result == '未结束'"
+              :disabled="res_ac_btn"
               type="danger"
               class="danger"
               size="small"
@@ -407,6 +453,15 @@ const hide_userlist = () => {
       :name="acuserlist.name"
       :list="acuserlist.list"
       :fileres="acuserlist.fileres"
+    />
+    <ActivResult 
+      :showlist="activ_result_show.result"
+      :ac_name="activ_result_show.ac_name"
+      @hide_activ_result="hide_activ_result"
+      :list="activ_result_show.list"
+      :fileres="activ_result_show.file"
+      :ac_inte="activ_result_show.ac_inte"
+      @sub_ac_res="sub_ac_res"
     />
   </div>
 </template>
