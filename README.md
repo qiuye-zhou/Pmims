@@ -1,26 +1,21 @@
-# Pmims
-Pmims(Vue3,vite,pinia,VueRouter)
-
 技术栈:
 
 ```
 Vue3,pinia,VueRouter
 
-less
-
-Element-Plus,echarts
+Element-Plus
 ```
 
 
 
-请求服务端地址(修改位置)
+请求服务端地址
 
 ```
 src/config/request.ts
 export const baseURL = 'http://localhost:3300'//服务端请求地址
 ```
 
-生产环境运行
+运行
 
 ```
 npm run dev
@@ -32,4 +27,3 @@ npm run dev
 npm run build
 ```
 
-后端项目地址：https://github.com/zhou130258/Pmims_Server
