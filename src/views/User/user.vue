@@ -1,15 +1,20 @@
 <script lang="ts" setup>
 import { getUser, getintegral_rank } from "../../api/user";
 import storage from "../../localstorage/localstorage";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, watch } from "vue";
+import { baseURL } from '../../config/request';
+import { uploadimage } from "../../api/file";
+import { ElMessage, UploadInstance, UploadProps, UploadUserFile } from "element-plus";
 let userinfo = reactive({
   department: "",
   integral: "",
   jointime: "",
   name: "",
   sex: "",
+  age: "",
   user: false,
 });
+const avatarurl = ref(`${baseURL}/head_image/defaultimage.png`)
 onMounted(() => {
   const id = storage.get("data").id;
   getUser({
@@ -57,10 +62,64 @@ onMounted(() => {
       });
   }
 });
+// 上传用户图片
+const uploadRef = ref<UploadInstance>();
+const fileList = ref<UploadUserFile[]>([]);
+const handleExceed: UploadProps["onExceed"] = (files, uploadFiles) => {
+  ElMessage.warning(`只能上传一个文件`);
+};
+const submitUpload = () => {
+  if (fileList.value.length == 0) {
+    ElMessage.warning(`请选择要上传的文件`);
+  }
+  uploadRef.value!.submit();
+};
+const httpRequest = (params: any) => {
+  const formDate = new FormData();
+  formDate.append("file", fileList.value[0].raw);
+  formDate.append("id", storage.get("data").id);
+  uploadimage(formDate)
+    .then((res) => {
+      if (res.code == 200) {
+        setTimeout(() => location.reload(), 3000);
+      } else {
+        if(res.code == 406) {
+          ElMessage.error(res.msg);
+        }
+      }
+    })
+    .catch((err) => {
+      ElMessage.error("出现错误");
+    });
+};
 </script>
 
 <template>
   <div class="divcon">
+    <div class="avatar">
+      <el-avatar shape="square" :size="100" fit="cover" :src="avatarurl" />
+      <el-upload
+        v-model:file-list="fileList"
+        ref="uploadRef"
+        class="upload-demo"
+        :action="`id`"
+        :http-request="httpRequest"
+        :limit="1"
+        :on-exceed="handleExceed"
+        :auto-upload="false"
+        :multiple="false"
+      >
+        <template #trigger>
+          <el-button size="small" type="primary">选择文件</el-button>
+        </template>
+        <el-button size="small" type="success" @click="submitUpload">
+              确认
+        </el-button>
+        <template #tip>
+          <div class="el-upload__tip text">请选择上传头像</div>
+        </template>
+      </el-upload>
+    </div>
     <div class="info">
       <h3>个人信息</h3>
       <el-form
@@ -120,6 +179,25 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  .avatar {
+    min-width: 300px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 230px;
+    .text {
+      text-align: center;
+      width: 100%;
+    }
+    .upload-demo {
+      width: 200px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+  }
 }
 .info {
   margin-bottom: 30px;

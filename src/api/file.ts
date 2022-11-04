@@ -17,3 +17,12 @@ export function uploadEx(data: any) {
         data
     }) 
 }
+
+//用户提交审核提交文件
+export function uploadimage(data: any) {
+    return request({
+        url: '/file/uploadimage',
+        method: 'POST',
+        data
+    }) 
+}

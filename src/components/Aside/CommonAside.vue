@@ -4,9 +4,12 @@ import storage from "../../localstorage/localstorage";
 import { onBeforeMount, reactive, ref } from "vue";
 import useMeunStore from "../../store/meun";
 const store = useMeunStore();
+// @ts-ignore
 import useUserStore from "../../store/user";
 const storeuser = useUserStore();
+// @ts-ignore
 import { user,admin,supadmin } from '../../config/routercon'
+// @ts-ignore
 import { initmeun } from '../../util/asidemeun'
 
 const handleOpen = (key: string, keyPath: string[]) => {
