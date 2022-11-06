@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts">// @ts-nocheck
 import useMainStore from '../store/index'
 // import {
 //   Check,

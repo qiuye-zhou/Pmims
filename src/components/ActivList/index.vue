@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { join_active } from "../../api/user";

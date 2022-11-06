@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { ref, reactive } from "vue";
 import { join_active } from "../../api/user";
 import storage from "../../localstorage/localstorage";

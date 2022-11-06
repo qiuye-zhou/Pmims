@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { ref,reactive,onBeforeMount } from 'vue'
 import router from '../../router/index'
 import storage from "../../localstorage/localstorage";

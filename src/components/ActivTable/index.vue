@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 defineProps<{
   name?: string,
   id?: string,

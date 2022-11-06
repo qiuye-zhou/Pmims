@@ -52,6 +52,11 @@ export const admin = [
         name: 'user',
         meta: { title: '个人信息', icon: 'UserFilled' }
     },
+    {
+        path: 'big_data',
+        name: 'big_data',
+        meta: { title: '大数据可视化', icon: 'Histogram' }
+    }
 ]
 
 export const supadmin = [
@@ -85,4 +90,9 @@ export const supadmin = [
         name: 'user',
         meta: { title: '个人信息', icon: 'UserFilled' }
     },
+    {
+        path: 'big_data',
+        name: 'big_data',
+        meta: { title: '大数据可视化', icon: 'Histogram' }
+    }
 ]

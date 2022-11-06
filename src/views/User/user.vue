@@ -1,7 +1,7 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { getUser, getintegral_rank } from "../../api/user";
 import storage from "../../localstorage/localstorage";
-import { reactive, ref, onMounted, watch } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { baseURL } from '../../config/request';
 import { uploadimage } from "../../api/file";
 import { ElMessage, UploadInstance, UploadProps, UploadUserFile } from "element-plus";

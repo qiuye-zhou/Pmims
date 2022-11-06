@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { reactive, toRefs } from "vue";
 import router from '../../router/index'
 import Tabs from '../Tabs/CommonTabs.vue'

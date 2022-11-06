@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { Search } from "@element-plus/icons-vue";
 import { reactive, ref, onMounted } from "vue";
 import { getallex, exsub } from "../../api/admin";

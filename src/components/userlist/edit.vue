@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { reactive, ref } from "vue";
 defineProps<{
   dialogFormVisible?: boolean;

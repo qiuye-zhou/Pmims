@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { reactive, ref, onMounted } from "vue";
 import { Delete, Search, Edit } from "@element-plus/icons-vue";
 import {

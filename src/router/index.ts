@@ -52,6 +52,11 @@ const routes: RouteRecordRaw[] = [
                 name: 'userdetails',
                 component: () => import('../views/adminviews/userdetails.vue')
             },
+            {
+                path: 'big_data',
+                name: 'big_data',
+                component: () => import('../views/big_data/big_data.vue')
+            }
         ]
     },
     {

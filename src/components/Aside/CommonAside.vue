@@ -1,15 +1,12 @@
-<script setup lang="ts">
+<script setup lang="ts">// @ts-nocheck
 import router from "../../router/index";
 import storage from "../../localstorage/localstorage";
 import { onBeforeMount, reactive, ref } from "vue";
 import useMeunStore from "../../store/meun";
 const store = useMeunStore();
-// @ts-ignore
 import useUserStore from "../../store/user";
 const storeuser = useUserStore();
-// @ts-ignore
 import { user,admin,supadmin } from '../../config/routercon'
-// @ts-ignore
 import { initmeun } from '../../util/asidemeun'
 
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -43,7 +40,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div>
+  <div class="con">
     <el-menu
       active-text-color="#66b5fa"
       background-color="#545c64"
@@ -72,6 +69,9 @@ onBeforeMount(() => {
 </template>
 
 <style lang="less" scoped>
+.con {
+  height: 100vh;
+}
 .title-aside {
   margin: 0px;
   text-align: center;

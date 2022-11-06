@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import storage from "../../localstorage/localstorage";
 import { reactive, ref, onMounted } from "vue";
 import {

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import ActivTable from "../../components/ActivList/index.vue";
 import ActivDetails from "../../components/ActivList/ActivDetails.vue";
 import { ref, reactive, onBeforeMount } from "vue";

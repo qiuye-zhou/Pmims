@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts">// @ts-nocheck
 import { reactive, ref } from "vue";
 import useUserStore from "../../store/user";
 const store = useUserStore();

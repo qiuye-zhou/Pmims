@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup>// @ts-nocheck
 import { getactiv_evalue, activ_evaluate } from "../../api/user";
 import storage from "../../localstorage/localstorage";
 import { ref, reactive, onBeforeMount } from "vue";
