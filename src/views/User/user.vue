@@ -14,7 +14,7 @@ let userinfo = reactive({
   age: "",
   user: false,
 });
-const avatarurl = ref(`${baseURL}/head_image/defaultimage.png`)
+const avatarurl = ref(`${baseURL}/head_image/user_img${storage.get('data').id}.png`)
 onMounted(() => {
   const id = storage.get("data").id;
   getUser({
@@ -61,6 +61,13 @@ onMounted(() => {
         console.log(err);
       });
   }
+
+  // 检查头像是否存在
+  let imgObj = new Image();
+  imgObj.src = `${baseURL}/head_image/user_img${storage.get('data').id}.png`;
+  if (imgObj.width == 0) {
+    avatarurl.value = `${baseURL}/head_image/user_img${storage.get('data').id}.jpg`
+  }
 });
 // 上传用户图片
 const uploadRef = ref<UploadInstance>();
@@ -81,6 +88,10 @@ const httpRequest = (params: any) => {
   uploadimage(formDate)
     .then((res) => {
       if (res.code == 200) {
+        ElMessage({
+            type: "success",
+            message: res.msg,
+        });
         setTimeout(() => location.reload(), 3000);
       } else {
         if(res.code == 406) {
@@ -116,7 +127,7 @@ const httpRequest = (params: any) => {
               确认
         </el-button>
         <template #tip>
-          <div class="el-upload__tip text">请选择上传头像</div>
+          <div class="el-upload__tip text">请选择上传头像(.png or .jpg)</div>
         </template>
       </el-upload>
     </div>
