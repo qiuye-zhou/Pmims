@@ -81,6 +81,16 @@ const submitUpload = () => {
   }
   uploadRef.value!.submit();
 };
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpg' && rawFile.type !== 'image/png') {
+    ElMessage.error('请上传png或jpg图片')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('上传头像大小不要超过2MB!')
+    return false
+  }
+  return true
+}
 const httpRequest = (params: any) => {
   const formDate = new FormData();
   formDate.append("file", fileList.value[0].raw);
@@ -117,6 +127,7 @@ const httpRequest = (params: any) => {
         :http-request="httpRequest"
         :limit="1"
         :on-exceed="handleExceed"
+        :before-upload="beforeAvatarUpload"
         :auto-upload="false"
         :multiple="false"
       >
