@@ -39,13 +39,13 @@ router.beforeEach((to, from, next) => {
                     }
                 } else {
                     if (storage.get('data').grade == 2) {
-                        if (to.name == 'activ' || to.name == 'prize' || to.name == 'userlist' || to.name == 'evaluate') {
+                        if (to.name == 'activ' || to.name == 'prize' || to.name == 'userlist' || to.name == 'evaluate' || to.name == 'user_big_data') {
                             next('404')
                         } else {
                             next()
                         }
                     } else {
-                        if (to.name == 'activ' || to.name == 'prize' || to.name == 'evaluate') {
+                        if (to.name == 'activ' || to.name == 'prize' || to.name == 'evaluate' || to.name == 'user_big_data') {
                             next('404')
                         } else {
                             next()

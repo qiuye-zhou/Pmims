@@ -24,6 +24,11 @@ export const user = [
         name: 'user',
         meta: { title: '个人信息', icon: 'UserFilled' }
     },
+    {
+        path: 'user_big_data',
+        name: 'user_big_data',
+        meta: { title: '大数据可视化', icon: 'Histogram' }
+    }
 ]
 
 export const admin = [

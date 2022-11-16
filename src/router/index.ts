@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'main',
-        redirect: 'home',
+        redirect: 'login',
         component: () => import('../views/main.vue'),
         children: [
             {
@@ -56,6 +56,11 @@ const routes: RouteRecordRaw[] = [
                 path: 'big_data',
                 name: 'big_data',
                 component: () => import('../views/big_data/big_data.vue')
+            },
+            {
+                path: 'user_big_data',
+                name: 'user_big_data',
+                component: () => import('../views/user_big_data/user_big_data.vue')
             }
         ]
     },
