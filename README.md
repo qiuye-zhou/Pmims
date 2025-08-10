@@ -6,6 +6,8 @@ Vue3,pinia,VueRouter
 Element-Plus
 ```
 
+后端地址：[Pmims_Server](https://github.com/qiuye-zhou/Pmims_Server)
+
 
 请求服务端地址
 
